@@ -9,7 +9,7 @@ const NAV_ITEMS = [
   { to: "/contact", label: "Contact" },
 ] as const;
 
-export function SiteChrome({ name = "Your Name" }: { name?: string }) {
+export function SiteChrome({ name = "Sharvesh Kandavel" }: { name?: string }) {
   return (
     <>
       {/* Top-left brand pill */}
@@ -45,7 +45,7 @@ export function SiteChrome({ name = "Your Name" }: { name?: string }) {
       {/* Bottom-left socials */}
       <div className="fixed bottom-5 left-4 z-40 flex items-center gap-3 sm:bottom-6 sm:left-6">
         <a
-          href="https://github.com/"
+          href="https://github.com/SharveshKandavel"
           target="_blank"
           rel="noreferrer"
           aria-label="GitHub"
@@ -54,7 +54,7 @@ export function SiteChrome({ name = "Your Name" }: { name?: string }) {
           <Github className="h-4 w-4" />
         </a>
         <a
-          href="https://linkedin.com/"
+          href="https://linkedin.com/in/sharveshkandavel/"
           target="_blank"
           rel="noreferrer"
           aria-label="LinkedIn"

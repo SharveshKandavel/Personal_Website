@@ -2,15 +2,13 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 export function Hero({
-  name = "Your Name",
+  name = "Sharvesh Kandavel",
   tagline = "Mechatronics @ Waterloo. I code, I solve, I build, I score.",
-  currentlyLabel = "Currently: Building at Credvan",
-  buildingChip = "Currently building ⚙ Credvan",
+  statusChip,
 }: {
   name?: string;
   tagline?: string;
-  currentlyLabel?: string;
-  buildingChip?: string;
+  statusChip?: string;
 }) {
   return (
     <section className="aurora-bg relative flex min-h-screen w-full flex-col items-center justify-center px-6 pb-32 pt-24 text-center">
@@ -22,10 +20,6 @@ export function Hero({
         {tagline}
       </p>
 
-      <p className="mt-5 text-sm text-muted-foreground sm:text-base">
-        {currentlyLabel}
-      </p>
-
       <Link
         to="/about"
         className="mt-10 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-medium text-background shadow-xl transition-transform hover:-translate-y-0.5"
@@ -34,11 +28,13 @@ export function Hero({
         <ArrowRight className="h-4 w-4" />
       </Link>
 
-      {/* Center-bottom building chip */}
-      <div className="pill absolute bottom-6 left-1/2 hidden -translate-x-1/2 sm:inline-flex">
-        <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
-        {buildingChip}
-      </div>
+      {/* Center-bottom status chip */}
+      {statusChip && (
+        <div className="pill absolute bottom-6 left-1/2 hidden -translate-x-1/2 sm:inline-flex">
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
+          {statusChip}
+        </div>
+      )}
 
       {/* Scroll cue */}
       <div className="absolute bottom-24 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:bottom-28">

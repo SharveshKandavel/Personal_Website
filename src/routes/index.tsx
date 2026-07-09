@@ -19,7 +19,7 @@ const PREVIEW_CARDS = [
   {
     to: "/experience",
     title: "Experience",
-    body: "Currently building at Credvan. Past internships in fintech, robotics, and AI.",
+    body: "Past internships in fintech, robotics, and AI.",
   },
   {
     to: "/projects",
@@ -45,9 +45,8 @@ function Index() {
 
       <Hero
         name={NAME}
-        tagline="Mechatronics @ Waterloo. I code, I solve, I build."
-        currentlyLabel="Currently: Building at Credvan"
-        buildingChip="Currently building ⚙ Credvan"
+        tagline="Mechatronics Engineer with an entrepreneurial mind — building hardware, software, and bold ideas"
+        statusChip="Seeking Fall 2026 Co-op"
       />
 
       <Universe />
