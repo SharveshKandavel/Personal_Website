@@ -245,40 +245,32 @@ export function Universe() {
     let lighthouseBeam: THREE.Group | null = null;
     let soccerBall: THREE.Group | null = null;
 
-    /* ── 1. UNIVERSITY (About) — Glass Tech Pavilion ── */
+    /* ── 1. UNIVERSITY (About) — Apple Park style ring with holograms ── */
     {
       const g = new THREE.Group();
       g.position.set(4, 0, 4);
 
-      // Floor Base
-      const floor = cy(2.0, 2.0, 0.2, 32, BASE_MAT);
-      floor.position.y = 0.1;
-      g.add(floor);
+      // Main Ring
+      const ringGeo = new THREE.TorusGeometry(1.6, 0.4, 16, 48);
+      const ring = new THREE.Mesh(ringGeo, GLASS_MAT);
+      ring.rotation.x = Math.PI / 2;
+      ring.position.y = 0.4;
+      g.add(ring);
 
-      // Inner Glowing Core (Server column)
-      const core = cy(0.6, 0.6, 1.8, 16, GLOW_BLUE);
-      core.position.y = 1.0;
-      g.add(core);
+      // Central Holographic projection base
+      const holoBase = cy(0.5, 0.6, 0.2, 16, BASE_MAT);
+      holoBase.position.y = 0.1;
+      g.add(holoBase);
 
-      // Outer Glass Pavilion Wall
-      const glassWall = cy(1.8, 1.8, 1.8, 32, GLASS_MAT);
-      glassWall.position.y = 1.0;
-      g.add(glassWall);
-
-      // Sleek Dark Roof
-      const roof = cy(2.2, 2.2, 0.2, 32, DARK_MAT);
-      roof.position.y = 2.0;
-      g.add(roof);
-
-      // Tier 3 (Holographic Data Ring hovering above roof)
+      // Holographic Data Ring hovering above
       aboutHoloRing = new THREE.Mesh(new THREE.TorusGeometry(2.0, 0.05, 8, 64), GLOW_BLUE);
       aboutHoloRing.rotation.x = Math.PI / 2;
-      aboutHoloRing.position.y = 2.5;
+      aboutHoloRing.position.y = 1.6;
       g.add(aboutHoloRing);
 
       // Massive Floating Holographic Graduation Cap
       gradCapGrp = new THREE.Group();
-      gradCapGrp.position.set(0, 4.0, 0); // Floats above the holo ring
+      gradCapGrp.position.set(0, 3.5, 0); // Floats above the holo ring
       gradCapGrp.scale.setScalar(2.5); 
       // Base skull cap
       const capBase = cy(0.4, 0.4, 0.3, 32, GLOW_BLUE);
@@ -693,7 +685,7 @@ export function Universe() {
 
       // Massive floating graduation cap
       if (gradCapGrp) {
-        gradCapGrp.position.y = 4.0 + Math.sin(t * 2) * 0.1;
+        gradCapGrp.position.y = 3.5 + Math.sin(t * 2) * 0.1;
         gradCapGrp.rotation.y = t * 0.8;
       }
 
