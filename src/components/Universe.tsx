@@ -130,8 +130,8 @@ export function Universe() {
     };
 
     // Connect centers
-    addPathLine(4, 4, 0, 0);          // To University
-    addPathLine(0, 0, 6, -3);         // To Experience
+    addPathLine(4, 4, 0, 0);          // To Experience
+    addPathLine(0, 0, 5, -5);         // To About
     addPathLine(0, 0, -5, 3);         // To Projects
     addPathLine(0, 0, 1, -7);         // To Contact
     addPathLine(0, 0, -7, -4);        // To Hobbies
@@ -245,47 +245,20 @@ export function Universe() {
     let lighthouseBeam: THREE.Group | null = null;
     let soccerBall: THREE.Group | null = null;
 
-    /* ── 1. UNIVERSITY (About) — Apple Park style ring with holograms ── */
+    /* ── 1. UNIVERSITY (About) — Sleek Glass Dome ── */
     {
       const g = new THREE.Group();
-      g.position.set(4, 0, 4);
+      g.position.set(5, 0, -5);
 
-      // Main Ring
-      const ringGeo = new THREE.TorusGeometry(1.6, 0.4, 16, 48);
-      const ring = new THREE.Mesh(ringGeo, GLASS_MAT);
-      ring.rotation.x = Math.PI / 2;
-      ring.position.y = 0.4;
-      g.add(ring);
+      // Glass Dome
+      const domeGeo = new THREE.SphereGeometry(1.8, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+      const dome = new THREE.Mesh(domeGeo, GLASS_MAT);
+      g.add(dome);
 
-      // Central Holographic projection base
-      const holoBase = cy(0.5, 0.6, 0.2, 16, BASE_MAT);
-      holoBase.position.y = 0.1;
-      g.add(holoBase);
-
-      // Holographic Data Ring hovering above
-      aboutHoloRing = new THREE.Mesh(new THREE.TorusGeometry(2.0, 0.05, 8, 64), GLOW_BLUE);
-      aboutHoloRing.rotation.x = Math.PI / 2;
-      aboutHoloRing.position.y = 1.6;
-      g.add(aboutHoloRing);
-
-      // Massive Floating Holographic Graduation Cap
-      gradCapGrp = new THREE.Group();
-      gradCapGrp.position.set(0, 3.5, 0); // Floats above the holo ring
-      gradCapGrp.scale.setScalar(2.5); 
-      // Base skull cap
-      const capBase = cy(0.4, 0.4, 0.3, 32, GLOW_BLUE);
-      gradCapGrp.add(capBase);
-      // Top board
-      const board = bx(1.2, 0.05, 1.2, GLOW_BLUE);
-      board.position.y = 0.15;
-      gradCapGrp.add(board);
-      // Tassel
-      const tassel = cy(0.02, 0.02, 0.4, 8, GLOW_GREEN);
-      tassel.position.set(0.4, 0, 0.4);
-      tassel.rotation.z = Math.PI / 8;
-      gradCapGrp.add(tassel);
-      
-      g.add(gradCapGrp);
+      // Glowing Core Inside
+      const core = cy(0.8, 0.8, 1.2, 16, GLOW_BLUE);
+      core.position.y = 0.6;
+      g.add(core);
 
       pick(g, "/about", "About", 3.0); // Standard Sphere Hitbox
       scene.add(g);
@@ -294,7 +267,7 @@ export function Universe() {
     /* ── 2. EXPERIENCE (Credvan) — Sleek twisting skyscraper ── */
     {
       const g = new THREE.Group();
-      g.position.set(6, 0, -3);
+      g.position.set(4, 0, 4);
 
       const floors = 8;
       for (let i = 0; i < floors; i++) {
@@ -336,58 +309,48 @@ export function Universe() {
       scene.add(g);
     }
 
-    /* ── 3. PROJECTS (Tech Lab) — Geometric Hangar ── */
+    /* ── 3. PROJECTS (Tech Lab) — Holographic Projection Base ── */
     {
       const g = new THREE.Group();
       g.position.set(-5, 0, 3);
-      const WHITE_MAT = mkMat(0xffffff, 0.3, 0.1);
-
-      // Sleek angular white hangar
-      const roof = s(new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.6, 3.2, 6, 1, false, 0, Math.PI), WHITE_MAT));
-      roof.rotation.z = Math.PI / 2; // Width 3.2 along X-axis
-      roof.position.y = 0.8;
-      g.add(roof);
-
-      const body = bx(3.2, 0.8, 2.5, WHITE_MAT);
-      body.position.y = 0.4;
-      g.add(body);
-
-      // Glass front
-      const glassFront = new THREE.Mesh(new THREE.CircleGeometry(1.5, 6, 0, Math.PI), GLASS_MAT);
-      glassFront.position.set(0, 0, 1.25);
-      g.add(glassFront);
-
-      // Robotic Arm outside
-      projArmBase = new THREE.Group();
-      projArmBase.position.set(2.0, 0, 2.0);
-      projArmBase.scale.setScalar(2.0); // MASSIVE ARM
       
-      const base = cy(0.3, 0.4, 0.4, 16, DARK_MAT);
-      base.position.y = 0.2;
-      projArmBase.add(base);
+      // Main Projection Ring
+      const ringGeo = new THREE.TorusGeometry(1.6, 0.4, 16, 48);
+      const ring = new THREE.Mesh(ringGeo, GLASS_MAT);
+      ring.rotation.x = Math.PI / 2;
+      ring.position.y = 0.4;
+      g.add(ring);
 
-      const arm1 = bx(0.15, 1.0, 0.15, BASE_MAT);
-      arm1.position.y = 0.6;
-      arm1.rotation.z = 0.3;
-      projArmBase.add(arm1);
+      // Central Holographic projection base
+      const holoBase = cy(0.5, 0.6, 0.2, 16, BASE_MAT);
+      holoBase.position.y = 0.1;
+      g.add(holoBase);
 
-      const joint = sp(0.2, GLOW_GREEN);
-      joint.position.set(-0.15, 1.0, 0);
-      projArmBase.add(joint);
+      // Holographic Data Ring hovering above
+      aboutHoloRing = new THREE.Mesh(new THREE.TorusGeometry(2.0, 0.05, 8, 64), GLOW_GREEN);
+      aboutHoloRing.rotation.x = Math.PI / 2;
+      aboutHoloRing.position.y = 1.6;
+      g.add(aboutHoloRing);
 
-      const arm2 = bx(0.1, 0.8, 0.1, BASE_MAT);
-      arm2.position.set(0.1, 1.3, 0);
-      arm2.rotation.z = -0.4;
-      projArmBase.add(arm2);
+      // Massive Floating Holographic Wireframe Gem
+      gradCapGrp = new THREE.Group();
+      gradCapGrp.position.set(0, 3.5, 0); // Floats above the holo ring
+      gradCapGrp.scale.setScalar(1.5); 
+      
+      const gemGeo = new THREE.IcosahedronGeometry(1.0, 0);
+      const gemMat = new THREE.MeshBasicMaterial({ color: 0x00ffaa, wireframe: true });
+      const gem = new THREE.Mesh(gemGeo, gemMat);
+      
+      // Inner glowing core of the gem
+      const innerGem = new THREE.Mesh(gemGeo, mkMat(0x00ffaa, 0.5, 0.1));
+      innerGem.scale.setScalar(0.7);
+      
+      gradCapGrp.add(gem);
+      gradCapGrp.add(innerGem);
+      
+      g.add(gradCapGrp);
 
-      // Held glowing cube
-      const heldCube = bx(0.25, 0.25, 0.25, GLOW_BLUE);
-      heldCube.position.set(0.2, 1.7, 0);
-      projArmBase.add(heldCube);
-
-      g.add(projArmBase);
-
-      pick(g, "/projects", "Projects", 2.5);
+      pick(g, "/projects", "Projects", 3.0);
       scene.add(g);
     }
 
@@ -684,24 +647,21 @@ export function Universe() {
         aboutHoloRing.rotation.z = t * 0.5;
       }
 
-      // Massive floating graduation cap
+      // Holographic wireframe gem on Projects
       if (gradCapGrp) {
         gradCapGrp.position.y = 3.5 + Math.sin(t * 2) * 0.1;
         gradCapGrp.rotation.y = t * 0.8;
+        gradCapGrp.rotation.z = Math.sin(t * 1.5) * 0.1; // gentle tilt
+        if (gradCapGrp.children[1]) {
+           gradCapGrp.children[1].rotation.y = -t * 1.6; // Inner gem spins opposite
+           gradCapGrp.children[1].rotation.x = t * 1.2;
+        }
       }
 
       // Rotate Lighthouse Orb Rings
       if (lighthouseBeam) {
         lighthouseBeam.children[1].rotation.x = Math.PI/2 + Math.sin(t) * 0.3;
         lighthouseBeam.children[1].rotation.y = t * 1.5;
-      }
-
-      // Robot arm movement
-      if (projArmBase) {
-        projArmBase.rotation.y = Math.sin(t * 0.8) * 1.2;
-        projArmBase.children[2].rotation.z = Math.sin(t * 1.5) * 0.5 + 0.3; // joint bounce
-        projArmBase.children[4].rotation.x += 0.05; // glowing cube spins
-        projArmBase.children[4].rotation.y += 0.05;
       }
 
       // Giant Bouncing Soccer Ball
