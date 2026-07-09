@@ -350,31 +350,21 @@ export function Universe() {
 
       // Massive Floating Holographic Wireframe Gem
       gradCapGrp = new THREE.Group();
-      gradCapGrp.position.set(0, 3.5, 0); // Floats above the holo ring
-      gradCapGrp.scale.setScalar(1.5); 
+      const gemGeo = new THREE.IcosahedronGeometry(1.0, 0);
+      const gemMat = new THREE.MeshBasicMaterial({ color: 0x00ccff, wireframe: true, transparent: true, opacity: 0.3 });
+      const gem = new THREE.Mesh(gemGeo, gemMat);
       
-      // Graduation Cap Hologram (Hat)
-      const capBaseGeo = new THREE.CylinderGeometry(0.6, 0.6, 0.5, 16);
-      const capMat = new THREE.MeshBasicMaterial({ color: 0x00ccff, wireframe: true, transparent: true, opacity: 0.3 });
-      const capBase = new THREE.Mesh(capBaseGeo, capMat);
+      // Inner glowing core of the gem
+      const innerGem = new THREE.Mesh(gemGeo, mkMat(0x00ccff, 0.4, 0.2));
+      innerGem.scale.setScalar(0.7);
       
-      const boardGeo = new THREE.BoxGeometry(2.0, 0.1, 2.0);
-      const board = new THREE.Mesh(boardGeo, capMat);
-      board.position.y = 0.3;
-      board.rotation.y = Math.PI / 4;
+      gradCapGrp.add(gem);
+      gradCapGrp.add(innerGem);
       
-      // Inner glowing core of the hat
-      const innerCapBase = new THREE.Mesh(capBaseGeo, mkMat(0x00ccff, 0.4, 0.2));
-      innerCapBase.scale.setScalar(0.7);
-      const innerBoard = new THREE.Mesh(boardGeo, mkMat(0x00ccff, 0.4, 0.2));
-      innerBoard.position.y = 0.3;
-      innerBoard.rotation.y = Math.PI / 4;
-      innerBoard.scale.setScalar(0.7);
-      
-      gradCapGrp.add(capBase);
-      gradCapGrp.add(board);
-      gradCapGrp.add(innerCapBase);
-      gradCapGrp.add(innerBoard);
+      // Lighting shadow/glow from the base
+      const baseLight = new THREE.PointLight(0x00ccff, 4.0, 6.0);
+      baseLight.position.set(0, 0.5, 0); // Positioned right above the base, under the gem
+      g.add(baseLight);
       
       g.add(gradCapGrp);
 
@@ -683,7 +673,7 @@ export function Universe() {
         aboutHoloRing.rotation.z = t * 0.5;
       }
 
-      // Holographic wireframe gem on Projects
+      // Gem float + slow rotate
       if (gradCapGrp) {
         gradCapGrp.position.y = 3.5 + Math.sin(t * 2) * 0.1;
         gradCapGrp.rotation.y = t * 0.8;
