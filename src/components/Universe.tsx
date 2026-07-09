@@ -132,7 +132,7 @@ export function Universe() {
     // Connect centers
     addPathLine(6, 6, 0, 0);          // To About
     addPathLine(0, 0, 7, -3);         // To Experience
-    addPathLine(0, 0, -5, 3);         // To Projects
+    addPathLine(0, 0, -9, 4);         // To Projects
     addPathLine(0, 0, 8, 2);          // To Contact
     addPathLine(0, 0, -7, -4);        // To Hobbies
     addPathLine(0, 0, 1.5, 13);       // To Entrance Plaza
@@ -328,7 +328,7 @@ export function Universe() {
     /* ── 3. PROJECTS (Tech Lab) — Holographic Projection Base ── */
     {
       const g = new THREE.Group();
-      g.position.set(-5, 0, 3);
+      g.position.set(-9, 0, 4);
       
       // Main Projection Ring
       const ringGeo = new THREE.TorusGeometry(1.6, 0.4, 16, 48);
@@ -573,7 +573,7 @@ export function Universe() {
     addSpire(-2, 13, 7);
 
     addDataCenter(4, 9, -Math.PI/4);
-    addDataCenter(-9.5, 1, -Math.PI/6);
+    addDataCenter(-5, 3, -Math.PI/6); // Moved to old Projects spot
     addDataCenter(-2.5, -5.5, Math.PI/8);
 
     addCoil(-1, 10);
