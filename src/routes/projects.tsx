@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteChrome } from "@/components/SiteChrome";
-import { ArrowLeft, ExternalLink, Github, Cpu, Coins, Bot, Zap } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Cpu, Coins, Activity, Bot } from "lucide-react";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -24,6 +24,116 @@ export const Route = createFileRoute("/projects")({
   component: ProjectsPage,
 });
 
+function BitGoldVisual({ accent }: { accent: string }) {
+  return (
+    <div className="flex shrink-0 flex-col items-center justify-center gap-2 py-4 sm:py-0 w-32">
+      <div className="relative h-20 w-full">
+        {[48, 42, 36, 30].map((size, i) => (
+          <div
+            key={i}
+            className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full border-2 font-bold shadow-lg"
+            style={{
+              width: size * 1.4,
+              height: size * 0.4,
+              bottom: i * 10,
+              background: `linear-gradient(135deg, #ffd700, #b8860b)`,
+              borderColor: "#daa520",
+              color: "#7a5a00",
+              fontSize: i === 0 ? "10px" : "0px",
+              boxShadow: `0 ${4 - i}px 12px rgba(218,165,32,0.4)`,
+              zIndex: 10 - i,
+            }}
+          >
+            {i === 0 ? "24K GOLD" : ""}
+          </div>
+        ))}
+      </div>
+      <span className="text-xs font-medium" style={{ color: accent }}>
+        Fractional Gold
+      </span>
+    </div>
+  );
+}
+
+function RevampVisual({ accent }: { accent: string }) {
+  return (
+    <div className="flex shrink-0 flex-col items-center justify-center gap-2 py-4 sm:py-0 w-32">
+      <div
+        className="relative flex h-20 w-20 items-center justify-center rounded-xl border-4 bg-black/40"
+        style={{ borderColor: accent, boxShadow: `0 0 25px ${accent}33` }}
+      >
+        <div className="h-10 w-10 rounded-sm bg-current opacity-80" style={{ color: accent }} />
+        {/* CPU Traces */}
+        <div className="absolute -left-2 top-3 h-1 w-2 bg-current" style={{ color: accent }} />
+        <div className="absolute -left-2 bottom-3 h-1 w-2 bg-current" style={{ color: accent }} />
+        <div className="absolute -right-2 top-3 h-1 w-2 bg-current" style={{ color: accent }} />
+        <div className="absolute -right-2 bottom-3 h-1 w-2 bg-current" style={{ color: accent }} />
+        <div className="absolute -top-2 left-3 h-2 w-1 bg-current" style={{ color: accent }} />
+        <div className="absolute -top-2 right-3 h-2 w-1 bg-current" style={{ color: accent }} />
+        <div className="absolute -bottom-2 left-3 h-2 w-1 bg-current" style={{ color: accent }} />
+        <div className="absolute -bottom-2 right-3 h-2 w-1 bg-current" style={{ color: accent }} />
+      </div>
+      <span className="mt-1 text-xs font-medium" style={{ color: accent }}>
+        3D Hardware
+      </span>
+    </div>
+  );
+}
+
+function SilambamVisual({ accent }: { accent: string }) {
+  return (
+    <div className="flex shrink-0 flex-col items-center justify-center gap-2 py-4 sm:py-0 w-32">
+      <div className="relative flex h-20 w-20 items-center justify-center">
+        {/* Stick */}
+        <div className="absolute h-full w-2 rotate-45 rounded-full bg-foreground/20" />
+        {/* Sensor Module */}
+        <div
+          className="absolute flex h-6 w-10 rotate-45 items-center justify-center rounded-md border-2 bg-background/90 shadow-lg shadow-current/20"
+          style={{ borderColor: accent, color: accent }}
+        >
+          <Activity className="h-3 w-3" />
+        </div>
+        {/* Wireless Waves */}
+        <div
+          className="absolute left-1/2 top-1/4 h-4 w-4 animate-ping rounded-full border border-current opacity-50"
+          style={{ color: accent }}
+        />
+      </div>
+      <span className="text-xs font-medium" style={{ color: accent }}>
+        Motion Telemetry
+      </span>
+    </div>
+  );
+}
+
+function RobotVisual({ accent }: { accent: string }) {
+  return (
+    <div className="flex shrink-0 flex-col items-center justify-center gap-2 py-4 sm:py-0 w-32">
+      <div className="relative flex h-20 w-20 items-end justify-center pb-2">
+        {/* Robot Base */}
+        <div
+          className="relative z-10 flex h-14 w-16 flex-col items-center justify-end rounded-t-xl border-2 bg-card pb-1 shadow-lg shadow-current/20"
+          style={{ borderColor: accent, color: accent }}
+        >
+          {/* Eye Scanner */}
+          <div className="mb-2 flex h-3 w-8 items-center justify-center rounded-full bg-current/20">
+            <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-current shadow-[0_0_5px_currentColor]" />
+          </div>
+          {/* Wheels */}
+          <div className="absolute -bottom-2 -left-2 h-4 w-4 rounded-full border-2 bg-background" style={{ borderColor: accent }} />
+          <div className="absolute -bottom-2 -right-2 h-4 w-4 rounded-full border-2 bg-background" style={{ borderColor: accent }} />
+        </div>
+        {/* Colored Sorting Blocks */}
+        <div className="absolute -left-2 bottom-2 h-4 w-4 rounded bg-blue-500/80" />
+        <div className="absolute -right-2 bottom-2 h-4 w-4 rounded bg-red-500/80" />
+      </div>
+      <span className="text-xs font-medium" style={{ color: accent }}>
+        PID Control
+      </span>
+    </div>
+  );
+}
+
 const PROJECTS = [
   {
     name: "BitGold",
@@ -41,7 +151,7 @@ const PROJECTS = [
     ],
     github: "https://github.com/SharveshKandavel",
     live: null,
-    featured: true,
+    visual: BitGoldVisual,
   },
   {
     name: "Revamp",
@@ -59,12 +169,12 @@ const PROJECTS = [
     ],
     github: "https://github.com/SharveshKandavel",
     live: null,
-    featured: false,
+    visual: RevampVisual,
   },
   {
     name: "Silambam Motion Sensor",
     subtitle: "Wearable martial-arts swing tracker",
-    icon: Zap,
+    icon: Activity,
     accent: "#38d9a9",
     accentBg: "rgba(56,217,169,0.08)",
     tags: ["C++", "Arduino", "Bluetooth", "Hardware", "Sensors"],
@@ -77,7 +187,7 @@ const PROJECTS = [
     ],
     github: "https://github.com/SharveshKandavel",
     live: null,
-    featured: false,
+    visual: SilambamVisual,
   },
   {
     name: "Autonomous Sorting Robot",
@@ -95,14 +205,11 @@ const PROJECTS = [
     ],
     github: "https://github.com/SharveshKandavel",
     live: null,
-    featured: false,
+    visual: RobotVisual,
   },
-] as const;
+];
 
 function ProjectsPage() {
-  const featured = PROJECTS[0];
-  const rest     = PROJECTS.slice(1);
-
   return (
     <div className="aurora-bg relative min-h-screen">
       <SiteChrome />
@@ -116,155 +223,88 @@ function ProjectsPage() {
           Things I&apos;ve built — hardware, software, or both.
         </p>
 
-        {/* ── Featured: BitGold ─────────────────────────────────────────── */}
-        <div
-          className="mt-12 overflow-hidden rounded-3xl border border-border"
-          style={{ background: featured.accentBg }}
-        >
-          {/* Gold header bar */}
-          <div className="h-1 w-full" style={{ background: featured.accent }} />
-
-          <div className="p-8 sm:p-10">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-              <div className="flex-1">
-                {/* Icon + name */}
-                <div className="mb-3 flex items-center gap-3">
-                  <div
-                    className="flex h-11 w-11 items-center justify-center rounded-xl"
-                    style={{ background: featured.accent + "28", border: `1px solid ${featured.accent}55` }}
-                  >
-                    <featured.icon className="h-5 w-5" style={{ color: featured.accent }} />
-                  </div>
-                  <span
-                    className="rounded-full px-3 py-0.5 text-xs font-semibold uppercase tracking-widest"
-                    style={{ background: featured.accent + "22", color: featured.accent }}
-                  >
-                    Featured
-                  </span>
-                </div>
-
-                <h2 className="font-display text-3xl font-semibold sm:text-4xl">{featured.name}</h2>
-                <p className="mt-1 text-base text-muted-foreground">{featured.subtitle}</p>
-
-                <p className="mt-5 text-sm leading-relaxed text-foreground/85">{featured.body}</p>
-
-                {/* Highlights */}
-                <ul className="mt-5 grid gap-2 sm:grid-cols-2">
-                  {featured.highlights.map((h) => (
-                    <li key={h} className="flex items-center gap-2 text-sm text-foreground/80">
-                      <span style={{ color: featured.accent }} className="text-base font-bold">✓</span>
-                      {h}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Tags */}
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {featured.tags.map((t) => (
-                    <span key={t} className="pill !py-1 !text-[11px]">{t}</span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Coin stack visual */}
-              <div className="flex shrink-0 flex-col items-center justify-center gap-2 py-4 sm:py-0">
-                {[48, 42, 36, 30].map((size, i) => (
-                  <div
-                    key={i}
-                    className="rounded-full border-2 flex items-center justify-center font-bold text-sm shadow-lg"
-                    style={{
-                      width: size * 1.3,
-                      height: size * 0.35,
-                      background: `linear-gradient(135deg, #ffd700, #b8860b)`,
-                      borderColor: "#daa520",
-                      color: "#7a5a00",
-                      fontSize: i === 0 ? "10px" : "0px",
-                      boxShadow: `0 ${4 - i}px 12px rgba(218,165,32,0.4)`,
-                    }}
-                  >
-                    {i === 0 ? "24K GOLD" : ""}
-                  </div>
-                ))}
-                <span className="mt-2 text-xs font-medium" style={{ color: featured.accent }}>
-                  BitGold
-                </span>
-              </div>
-            </div>
-
-            {/* Links */}
-            <div className="mt-8 flex gap-3">
-              <a
-                href={featured.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pill inline-flex items-center gap-2 hover:bg-white/12 transition"
-              >
-                <Github className="h-4 w-4" /> GitHub
-              </a>
-              {featured.live && (
-                <a
-                  href={featured.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-white transition hover:opacity-90"
-                  style={{ background: featured.accent }}
-                >
-                  <ExternalLink className="h-4 w-4" /> Live demo
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* ── Other projects ────────────────────────────────────────────── */}
-        <div className="mt-6 grid gap-5 sm:grid-cols-3">
-          {rest.map((p) => (
-            <div
-              key={p.name}
-              className="group flex flex-col rounded-2xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:border-accent/60"
-              style={{ background: p.accentBg }}
-            >
-              {/* Icon */}
+        <div className="mt-12 flex flex-col gap-8">
+          {PROJECTS.map((p) => {
+            const Visual = p.visual;
+            return (
               <div
-                className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl"
-                style={{ background: p.accent + "22", border: `1px solid ${p.accent}44` }}
+                key={p.name}
+                className="group relative overflow-hidden rounded-3xl border border-border transition-all hover:border-accent/50"
+                style={{ background: p.accentBg }}
               >
-                <p.icon className="h-5 w-5" style={{ color: p.accent }} />
+                {/* Colored Top Border */}
+                <div className="h-1 w-full" style={{ background: p.accent }} />
+
+                <div className="p-8 sm:p-10">
+                  <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="flex-1">
+                      {/* Icon + Title */}
+                      <div className="mb-4 flex items-center gap-3">
+                        <div
+                          className="flex h-12 w-12 items-center justify-center rounded-xl"
+                          style={{ background: p.accent + "28", border: `1px solid ${p.accent}55` }}
+                        >
+                          <p.icon className="h-6 w-6" style={{ color: p.accent }} />
+                        </div>
+                      </div>
+
+                      <h2 className="font-display text-3xl font-semibold sm:text-4xl">{p.name}</h2>
+                      <p className="mt-1.5 text-base text-muted-foreground">{p.subtitle}</p>
+
+                      <p className="mt-5 text-sm leading-relaxed text-foreground/85 md:text-base">
+                        {p.body}
+                      </p>
+
+                      {/* Highlights */}
+                      <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
+                        {p.highlights.map((h) => (
+                          <li key={h} className="flex items-center gap-2 text-sm text-foreground/80">
+                            <span style={{ color: p.accent }} className="text-base font-bold">✓</span>
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* Tags */}
+                      <div className="mt-7 flex flex-wrap gap-2">
+                        {p.tags.map((t) => (
+                          <span key={t} className="pill border-white/10 !bg-white/5 !py-1.5 text-xs text-foreground/80">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Custom Visual Component */}
+                    <Visual accent={p.accent} />
+                  </div>
+
+                  {/* Action Links */}
+                  <div className="mt-8 flex gap-3">
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pill inline-flex items-center gap-2 text-sm transition hover:bg-white/10"
+                    >
+                      <Github className="h-4 w-4" /> GitHub
+                    </a>
+                    {p.live && (
+                      <a
+                        href={p.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:opacity-90"
+                        style={{ background: p.accent, boxShadow: `0 4px 14px ${p.accent}40` }}
+                      >
+                        <ExternalLink className="h-4 w-4" /> Live demo
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
-
-              <h3 className="font-display text-xl font-semibold">{p.name}</h3>
-              <p className="mt-1 text-xs text-muted-foreground">{p.subtitle}</p>
-
-              <p className="mt-3 flex-1 text-sm text-foreground/80">{p.body}</p>
-
-              {/* Highlights */}
-              <ul className="mt-4 space-y-1.5">
-                {p.highlights.map((h) => (
-                  <li key={h} className="flex items-start gap-1.5 text-xs text-foreground/70">
-                    <span style={{ color: p.accent }} className="mt-0.5 font-bold">›</span>
-                    {h}
-                  </li>
-                ))}
-              </ul>
-
-              {/* Tags */}
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {p.tags.map((t) => (
-                  <span key={t} className="pill !py-0.5 !text-[10px]">{t}</span>
-                ))}
-              </div>
-
-              {/* GitHub link */}
-              <a
-                href={p.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition hover:text-foreground"
-              >
-                <Github className="h-3.5 w-3.5" /> View on GitHub
-              </a>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </main>
     </div>
