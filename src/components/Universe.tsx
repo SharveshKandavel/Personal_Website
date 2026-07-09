@@ -130,10 +130,10 @@ export function Universe() {
     };
 
     // Connect centers
-    addPathLine(4, 4, 0, 0);          // To About
-    addPathLine(0, 0, 5, -5);         // To Experience
+    addPathLine(6, 6, 0, 0);          // To About
+    addPathLine(0, 0, 7, -3);         // To Experience
     addPathLine(0, 0, -5, 3);         // To Projects
-    addPathLine(0, 0, 1, -7);         // To Contact
+    addPathLine(0, 0, 1, -9);         // To Contact
     addPathLine(0, 0, -7, -4);        // To Hobbies
     addPathLine(0, 0, 1.5, 13);       // To Entrance Plaza
 
@@ -248,7 +248,7 @@ export function Universe() {
     /* ── 1. UNIVERSITY (About) — Modern Tech Building ── */
     {
       const g = new THREE.Group();
-      g.position.set(4, 0, 4);
+      g.position.set(6, 0, 6);
 
       // Stacked Modern Office Building
       const baseFloor = bx(2.5, 1.0, 2.5, BASE_MAT);
@@ -288,7 +288,7 @@ export function Universe() {
     /* ── 2. EXPERIENCE (Credvan) — Sleek twisting skyscraper ── */
     {
       const g = new THREE.Group();
-      g.position.set(5, 0, -5);
+      g.position.set(7, 0, -3);
 
       const floors = 8;
       for (let i = 0; i < floors; i++) {
@@ -428,7 +428,7 @@ export function Universe() {
     /* ── 5. CONTACT (Lighthouse) — Glowing Obelisk ── */
     {
       const g = new THREE.Group();
-      g.position.set(1, 0, -7);
+      g.position.set(1, 0, -9);
 
       // Obelisk base
       const obBase = cy(0.8, 1.2, 1.0, 4, BASE_MAT);
@@ -505,7 +505,7 @@ export function Universe() {
       [2, 2, 1.0], [3, 1, 0.8], [-2, 2, 1.2], [-3, 1.5, 0.9],
       [1, -2, 1.1], [3, -1, 0.8], [-3, -2, 1.0], [-1, -5, 1.3],
       [7, 1, 1.1], [5, -1, 0.9], [-4, -6, 0.8], [-7, 0, 1.2],
-      [-1, 12, 1.1], [4, 11, 0.9], [0, 11, 0.8], [3, 14, 1.0] // Trees framing the entrance
+      [-1, 12, 1.1], [4, 11, 0.9], [0, 11, 0.8], [4, 16, 1.0] // Trees framing the entrance
     ].forEach(([x, z, s]) => addTechTree(x, z, s));
 
     /* ── AMBIENT CITYSCAPE (Non-interactive towers & structures) ──────────── */
