@@ -353,16 +353,28 @@ export function Universe() {
       gradCapGrp.position.set(0, 3.5, 0); // Floats above the holo ring
       gradCapGrp.scale.setScalar(1.5); 
       
-      const gemGeo = new THREE.IcosahedronGeometry(1.0, 0);
-      const gemMat = new THREE.MeshBasicMaterial({ color: 0x00ccff, wireframe: true, transparent: true, opacity: 0.8 });
-      const gem = new THREE.Mesh(gemGeo, gemMat);
+      // Graduation Cap Hologram (Hat)
+      const capBaseGeo = new THREE.CylinderGeometry(0.6, 0.6, 0.5, 16);
+      const capMat = new THREE.MeshBasicMaterial({ color: 0x00ccff, wireframe: true, transparent: true, opacity: 0.3 });
+      const capBase = new THREE.Mesh(capBaseGeo, capMat);
       
-      // Inner glowing core of the gem
-      const innerGem = new THREE.Mesh(gemGeo, mkMat(0x00ccff, 0.4, 0.2));
-      innerGem.scale.setScalar(0.7);
+      const boardGeo = new THREE.BoxGeometry(2.0, 0.1, 2.0);
+      const board = new THREE.Mesh(boardGeo, capMat);
+      board.position.y = 0.3;
+      board.rotation.y = Math.PI / 4;
       
-      gradCapGrp.add(gem);
-      gradCapGrp.add(innerGem);
+      // Inner glowing core of the hat
+      const innerCapBase = new THREE.Mesh(capBaseGeo, mkMat(0x00ccff, 0.4, 0.2));
+      innerCapBase.scale.setScalar(0.7);
+      const innerBoard = new THREE.Mesh(boardGeo, mkMat(0x00ccff, 0.4, 0.2));
+      innerBoard.position.y = 0.3;
+      innerBoard.rotation.y = Math.PI / 4;
+      innerBoard.scale.setScalar(0.7);
+      
+      gradCapGrp.add(capBase);
+      gradCapGrp.add(board);
+      gradCapGrp.add(innerCapBase);
+      gradCapGrp.add(innerBoard);
       
       g.add(gradCapGrp);
 
@@ -611,12 +623,20 @@ export function Universe() {
       if (hits.length) {
         const { label } = hits[0].object.userData as { label: string };
         setHovered(label);
-        setTooltipPos({ x: e.clientX, y: e.clientY });
+        setTooltipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
         canvas.style.cursor = "pointer";
       } else {
         setHovered(null);
         canvas.style.cursor = "default";
       }
+    };
+
+    const onScroll = () => {
+      setHovered(null);
+    };
+
+    const onMouseLeave = () => {
+      setHovered(null);
     };
 
     const onClick = (e: MouseEvent) => {
@@ -633,7 +653,9 @@ export function Universe() {
     };
 
     canvas.addEventListener("mousemove", onMove);
+    canvas.addEventListener("mouseleave", onMouseLeave);
     canvas.addEventListener("click", onClick);
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     /* ── RESIZE ──────────────────────────────────────────────────────────── */
     const ro = new ResizeObserver(() => {
@@ -719,7 +741,9 @@ export function Universe() {
       cancelAnimationFrame(rafId);
       ro.disconnect();
       canvas.removeEventListener("mousemove", onMove);
+      canvas.removeEventListener("mouseleave", onMouseLeave);
       canvas.removeEventListener("click", onClick);
+      window.removeEventListener("scroll", onScroll);
       renderer.dispose();
     };
   }, [navigate]);
@@ -747,7 +771,7 @@ export function Universe() {
         
         {hovered && (
           <div
-            className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-full rounded-full border border-black/10 bg-white/90 px-4 py-1.5 text-sm font-semibold text-black shadow-lg backdrop-blur-md dark:border-white/20 dark:bg-black/80 dark:text-white"
+            className="pointer-events-none absolute z-50 -translate-x-1/2 -translate-y-full rounded-full border border-black/10 bg-white/90 px-4 py-1.5 text-sm font-semibold text-black shadow-lg backdrop-blur-md dark:border-white/20 dark:bg-black/80 dark:text-white"
             style={{ left: tooltipPos.x, top: tooltipPos.y - 16 }}
           >
             {hovered} →
