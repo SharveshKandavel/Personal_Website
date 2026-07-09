@@ -29,7 +29,7 @@ function BitGoldVisual({ accent }: { accent: string }) {
     <div className="flex shrink-0 flex-col items-center justify-center py-4 sm:py-0 w-full sm:w-64 md:w-80 lg:w-[400px]">
       <div className="relative w-full aspect-[4/3] overflow-hidden rounded-xl shadow-2xl" style={{ boxShadow: `0 10px 30px ${accent}33` }}>
         <img 
-          src="/bitgold1.png" 
+          src="/bitgold2.png" 
           alt="BitGold Preview" 
           className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-105" 
         />
