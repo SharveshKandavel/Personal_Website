@@ -343,7 +343,7 @@ export function Universe() {
       g.add(holoBase);
 
       // Holographic Data Ring hovering above
-      aboutHoloRing = new THREE.Mesh(new THREE.TorusGeometry(2.0, 0.05, 8, 64), GLOW_GREEN);
+      aboutHoloRing = new THREE.Mesh(new THREE.TorusGeometry(2.0, 0.05, 8, 64), GLOW_BLUE);
       aboutHoloRing.rotation.x = Math.PI / 2;
       aboutHoloRing.position.y = 1.6;
       g.add(aboutHoloRing);
@@ -354,11 +354,11 @@ export function Universe() {
       gradCapGrp.scale.setScalar(1.5); 
       
       const gemGeo = new THREE.IcosahedronGeometry(1.0, 0);
-      const gemMat = new THREE.MeshBasicMaterial({ color: 0x00ffaa, wireframe: true });
+      const gemMat = new THREE.MeshBasicMaterial({ color: 0x00ccff, wireframe: true, transparent: true, opacity: 0.8 });
       const gem = new THREE.Mesh(gemGeo, gemMat);
       
       // Inner glowing core of the gem
-      const innerGem = new THREE.Mesh(gemGeo, mkMat(0x00ffaa, 0.5, 0.1));
+      const innerGem = new THREE.Mesh(gemGeo, mkMat(0x00ccff, 0.4, 0.2));
       innerGem.scale.setScalar(0.7);
       
       gradCapGrp.add(gem);
@@ -725,11 +725,11 @@ export function Universe() {
   }, [navigate]);
 
   const LEGEND = [
-    { label: "About", hint: "University Ring", to: "/about" },
-    { label: "Experience", hint: "Credvan Tower", to: "/experience" },
-    { label: "Projects", hint: "Tech Lab", to: "/projects" },
-    { label: "Hobbies", hint: "Sunken Arena", to: "/hobbies" },
-    { label: "Contact", hint: "Obelisk Lighthouse", to: "/contact" },
+    { label: "About", hint: "Tech Building", to: "/about" },
+    { label: "Experience", hint: "Twisting Skyscraper", to: "/experience" },
+    { label: "Projects", hint: "Hologram", to: "/projects" },
+    { label: "Hobbies", hint: "Stadium", to: "/hobbies" },
+    { label: "Contact", hint: "Glowing Obelisk", to: "/contact" },
   ];
 
   return (
