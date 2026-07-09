@@ -16,7 +16,9 @@ export function Universe() {
     /* ── Renderer ─────────────────────────────────────────────────────────── */
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    const initW = canvas.clientWidth  || canvas.offsetWidth  || 800;
+    const initH = canvas.clientHeight || canvas.offsetHeight || 500;
+    renderer.setSize(initW, initH);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type    = THREE.PCFSoftShadowMap;
     renderer.setClearColor(0xcce8f8, 1);
@@ -29,7 +31,7 @@ export function Universe() {
     scene.background = new THREE.Color(0xcce8f8);
 
     /* ── Camera — fixed isometric-style, no drag ─────────────────────────── */
-    const camera = new THREE.PerspectiveCamera(40, canvas.clientWidth / canvas.clientHeight, 0.1, 200);
+    const camera = new THREE.PerspectiveCamera(40, initW / initH, 0.1, 200);
     camera.position.set(19, 17, 19);
     camera.lookAt(0, 1.2, 0);
 
@@ -48,7 +50,9 @@ export function Universe() {
     sun.shadow.bias          = -0.0005;
     scene.add(sun);
 
-    scene.add(Object.assign(new THREE.DirectionalLight(0x88aaff, 0.45), { position: new THREE.Vector3(12, 8, -10) }));
+    const fill = new THREE.DirectionalLight(0x88aaff, 0.45);
+    fill.position.set(12, 8, -10);
+    scene.add(fill);
 
     /* ── Geometry helpers ────────────────────────────────────────────────── */
     const std = (col: number, rough = 0.72, metal = 0.0, emi = 0, emiI = 0) =>
