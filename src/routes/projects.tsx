@@ -26,31 +26,14 @@ export const Route = createFileRoute("/projects")({
 
 function BitGoldVisual({ accent }: { accent: string }) {
   return (
-    <div className="flex shrink-0 flex-col items-center justify-center gap-2 py-4 sm:py-0 w-32">
-      <div className="relative h-20 w-full">
-        {[48, 42, 36, 30].map((size, i) => (
-          <div
-            key={i}
-            className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full border-2 font-bold shadow-lg"
-            style={{
-              width: size * 1.4,
-              height: size * 0.4,
-              bottom: i * 10,
-              background: `linear-gradient(135deg, #ffd700, #b8860b)`,
-              borderColor: "#daa520",
-              color: "#7a5a00",
-              fontSize: i === 0 ? "10px" : "0px",
-              boxShadow: `0 ${4 - i}px 12px rgba(218,165,32,0.4)`,
-              zIndex: 10 - i,
-            }}
-          >
-            {i === 0 ? "24K GOLD" : ""}
-          </div>
-        ))}
+    <div className="flex shrink-0 flex-col items-center justify-center py-4 sm:py-0 w-full sm:w-64 md:w-80 lg:w-[400px]">
+      <div className="relative w-full aspect-[4/3] overflow-hidden rounded-xl shadow-2xl" style={{ boxShadow: `0 10px 30px ${accent}33` }}>
+        <img 
+          src="/bitgold1.png" 
+          alt="BitGold Preview" 
+          className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-105" 
+        />
       </div>
-      <span className="text-xs font-medium" style={{ color: accent }}>
-        Fractional Gold
-      </span>
     </div>
   );
 }
