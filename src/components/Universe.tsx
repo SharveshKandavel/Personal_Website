@@ -472,7 +472,7 @@ export function Universe() {
       pl.position.y = 5.6;
       g.add(pl);
 
-      pick(g, "/contact", "Contact", 2.0, 12.0); // Tall Cylinder Hitbox
+      pick(g, "/contact", "Contact", 4.0, 20.0); // MASSIVE Tall Cylinder Hitbox
       scene.add(g);
     }
 
