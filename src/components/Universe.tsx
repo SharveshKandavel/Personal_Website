@@ -333,6 +333,7 @@ export function Universe() {
       g.add(sign);
 
       pick(g, "/experience", "Experience", 3.0, 12.0); // Tall Cylinder Hitbox
+      scene.add(g);
     }
 
     /* ── 3. PROJECTS (Tech Lab) — Geometric Hangar ── */
