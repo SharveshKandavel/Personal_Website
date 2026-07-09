@@ -48,10 +48,10 @@ function ContactPage() {
           >
             <Mail className="h-4 w-4" /> Email me
           </a>
-          <a href="https://linkedin.com/" target="_blank" rel="noreferrer" className="pill">
+          <a href="https://linkedin.com/in/sharveshkandavel/" target="_blank" rel="noreferrer" className="pill">
             <Linkedin className="h-4 w-4" /> LinkedIn
           </a>
-          <a href="https://github.com/" target="_blank" rel="noreferrer" className="pill">
+          <a href="https://github.com/SharveshKandavel" target="_blank" rel="noreferrer" className="pill">
             <Github className="h-4 w-4" /> GitHub
           </a>
           <button
