@@ -130,8 +130,8 @@ export function Universe() {
     };
 
     // Connect centers
-    addPathLine(4, 4, 0, 0);          // To Experience
-    addPathLine(0, 0, 5, -5);         // To About
+    addPathLine(4, 4, 0, 0);          // To About
+    addPathLine(0, 0, 5, -5);         // To Experience
     addPathLine(0, 0, -5, 3);         // To Projects
     addPathLine(0, 0, 1, -7);         // To Contact
     addPathLine(0, 0, -7, -4);        // To Hobbies
@@ -245,20 +245,41 @@ export function Universe() {
     let lighthouseBeam: THREE.Group | null = null;
     let soccerBall: THREE.Group | null = null;
 
-    /* ── 1. UNIVERSITY (About) — Sleek Glass Dome ── */
+    /* ── 1. UNIVERSITY (About) — Modern Tech Building ── */
     {
       const g = new THREE.Group();
-      g.position.set(5, 0, -5);
+      g.position.set(4, 0, 4);
 
-      // Glass Dome
-      const domeGeo = new THREE.SphereGeometry(1.8, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-      const dome = new THREE.Mesh(domeGeo, GLASS_MAT);
-      g.add(dome);
+      // Stacked Modern Office Building
+      const baseFloor = bx(2.5, 1.0, 2.5, BASE_MAT);
+      baseFloor.position.y = 0.5;
+      g.add(baseFloor);
 
-      // Glowing Core Inside
-      const core = cy(0.8, 0.8, 1.2, 16, GLOW_BLUE);
-      core.position.y = 0.6;
-      g.add(core);
+      // Glowing Cyan trim between floors
+      const glowTrim1 = bx(2.6, 0.1, 2.6, GLOW_BLUE);
+      glowTrim1.position.y = 1.05;
+      g.add(glowTrim1);
+
+      const glassMid = bx(2.2, 1.2, 2.2, GLASS_MAT);
+      glassMid.position.y = 1.7;
+      g.add(glassMid);
+
+      const glowTrim2 = bx(2.4, 0.1, 2.4, GLOW_BLUE);
+      glowTrim2.position.y = 2.35;
+      g.add(glowTrim2);
+
+      const topFloor = bx(2.6, 0.8, 2.6, DARK_MAT);
+      topFloor.position.y = 2.8;
+      g.add(topFloor);
+
+      // Satellite dish / Antenna on roof
+      const ant = cy(0.1, 0.1, 1.0, 8, BASE_MAT);
+      ant.position.set(-0.8, 3.6, -0.8);
+      g.add(ant);
+      
+      const antGlow = sp(0.15, GLOW_GREEN);
+      antGlow.position.set(-0.8, 4.1, -0.8);
+      g.add(antGlow);
 
       pick(g, "/about", "About", 3.0); // Standard Sphere Hitbox
       scene.add(g);
@@ -267,7 +288,7 @@ export function Universe() {
     /* ── 2. EXPERIENCE (Credvan) — Sleek twisting skyscraper ── */
     {
       const g = new THREE.Group();
-      g.position.set(4, 0, 4);
+      g.position.set(5, 0, -5);
 
       const floors = 8;
       for (let i = 0; i < floors; i++) {
