@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteChrome } from "@/components/SiteChrome";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Star } from "lucide-react";
 
 export const Route = createFileRoute("/hobbies")({
   head: () => ({
@@ -37,39 +37,40 @@ function HobbiesPage() {
         </p>
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2">
-          <div className="rounded-2xl border border-border bg-card p-6">
-            <div className="text-4xl">⚽</div>
-            <h3 className="mt-4 font-display text-2xl font-semibold">Soccer</h3>
+          <div className="relative rounded-2xl border border-border bg-card p-6">
+            <h3 className="font-display text-2xl font-semibold">Soccer</h3>
             <p className="mt-2 text-sm text-foreground/85">
               Striker. Reading the pitch, timing the run, finishing the chance —
               the same instincts I bring to building products.
             </p>
           </div>
-          <div className="rounded-2xl border border-border bg-card p-6">
-            <div className="text-4xl">🎧</div>
-            <h3 className="mt-4 font-display text-2xl font-semibold">Music</h3>
+          <div className="relative rounded-2xl border border-border bg-card p-6">
+            <Star className="absolute right-6 top-6 h-5 w-5 text-yellow-500 fill-yellow-500" />
+            <h3 className="font-display text-2xl font-semibold pr-8">Late-Night Discourses</h3>
             <p className="mt-2 text-sm text-foreground/85">
-              Always something in the ears while coding — the rhythm keeps the
-              flow going.
+              Nothing beats exchanging ideas, debating perspectives, and just talking about life with friends. 
             </p>
           </div>
-          <div className="rounded-2xl border border-border bg-card p-6">
-            <div className="text-4xl">🌍</div>
-            <h3 className="mt-4 font-display text-2xl font-semibold">Travel</h3>
+          <div className="relative rounded-2xl border border-border bg-card p-6">
+            <h3 className="font-display text-2xl font-semibold">Travel</h3>
             <p className="mt-2 text-sm text-foreground/85">
               New cities, new food, new perspectives. Every trip changes how I
               think.
             </p>
           </div>
-          <div className="rounded-2xl border border-border bg-card p-6">
-            <div className="text-4xl">🛠️</div>
-            <h3 className="mt-4 font-display text-2xl font-semibold">Tinkering</h3>
+          <div className="relative rounded-2xl border border-border bg-card p-6">
+            <h3 className="font-display text-2xl font-semibold">Tinkering</h3>
             <p className="mt-2 text-sm text-foreground/85">
               Weekend hardware experiments — because the best way to learn is to
               take something apart and put it back together.
             </p>
           </div>
         </div>
+
+        <p className="mt-10 text-center text-sm text-muted-foreground">
+          <Star className="inline h-4 w-4 text-yellow-500 fill-yellow-500 mr-1" />
+          Star is something most favourite.
+        </p>
       </main>
     </div>
   );

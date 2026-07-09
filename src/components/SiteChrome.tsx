@@ -20,13 +20,6 @@ export function SiteChrome({ name = "Sharvesh Kandavel" }: { name?: string }) {
         {name}.
       </Link>
 
-      {/* Top-right menu */}
-      <button
-        aria-label="Open menu"
-        className="fixed right-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-background shadow-lg transition-transform hover:-translate-y-0.5 sm:right-6 sm:top-6 sm:h-12 sm:w-12"
-      >
-        <Menu className="h-5 w-5" />
-      </button>
 
       {/* Left vertical nav */}
       <nav className="fixed left-6 top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-6 md:flex">
