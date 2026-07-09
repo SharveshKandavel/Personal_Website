@@ -20,13 +20,6 @@ export function Hero({
         {tagline}
       </p>
 
-      <Link
-        to="/about"
-        className="mt-10 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-medium text-background shadow-xl transition-transform hover:-translate-y-0.5"
-      >
-        About Me
-        <ArrowRight className="h-4 w-4" />
-      </Link>
 
       {/* Center-bottom status chip */}
       {statusChip && (

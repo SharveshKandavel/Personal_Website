@@ -133,7 +133,7 @@ export function Universe() {
     addPathLine(6, 6, 0, 0);          // To About
     addPathLine(0, 0, 7, -3);         // To Experience
     addPathLine(0, 0, -5, 3);         // To Projects
-    addPathLine(0, 0, -4, -8);        // To Contact
+    addPathLine(0, 0, 8, 2);          // To Contact
     addPathLine(0, 0, -7, -4);        // To Hobbies
     addPathLine(0, 0, 1.5, 13);       // To Entrance Plaza
 
@@ -244,7 +244,6 @@ export function Universe() {
     let projArmBase: THREE.Group | null = null;
     let lighthouseBeam: THREE.Group | null = null;
     let soccerBall: THREE.Group | null = null;
-    const cars: { mesh: THREE.Group, radius: number, speed: number, angle: number }[] = [];
 
     /* ── 1. UNIVERSITY (About) — Modern Tech Building ── */
     {
@@ -424,7 +423,7 @@ export function Universe() {
     /* ── 5. CONTACT (Lighthouse) — Glowing Obelisk ── */
     {
       const g = new THREE.Group();
-      g.position.set(-4, 0, -8);
+      g.position.set(8, 0, 2);
 
       // Obelisk base
       const obBase = cy(0.8, 1.2, 1.0, 4, BASE_MAT);
@@ -503,27 +502,6 @@ export function Universe() {
       [7, 1, 1.1], [5, -1, 0.9], [-4, -6, 0.8], [-7, 0, 1.2],
       [-1, 12, 1.1], [4, 11, 0.9], [0, 11, 0.8], [4, 16, 1.0] // Trees framing the entrance
     ].forEach(([x, z, s]) => addTechTree(x, z, s));
-
-    /* ── CARS ── */
-    const createCar = () => {
-      const g = new THREE.Group();
-      const body = bx(0.6, 0.2, 0.3, mkMat(0xffffff, 0.5, 0.1));
-      body.position.y = 0.1;
-      g.add(body);
-      const cabin = bx(0.3, 0.2, 0.25, mkMat(0xffffff, 0.5, 0.1));
-      cabin.position.set(-0.05, 0.3, 0);
-      g.add(cabin);
-      return g;
-    };
-
-    for (let i = 0; i < 5; i++) {
-      const car = createCar();
-      const radius = i % 2 === 0 ? 4.5 : 5.2; // Alternate between 2 lanes
-      const speed = 0.003 + Math.random() * 0.004; // Slow moving
-      const angle = Math.random() * Math.PI * 2;
-      cars.push({ mesh: car, radius, speed, angle });
-      scene.add(car);
-    }
 
     /* ── AMBIENT CITYSCAPE (Non-interactive towers & structures) ──────────── */
     const ambientGrp = new THREE.Group();
@@ -699,15 +677,6 @@ export function Universe() {
         lighthouseBeam.children[1].rotation.x = Math.PI/2 + Math.sin(t) * 0.3;
         lighthouseBeam.children[1].rotation.y = t * 1.5;
       }
-
-      // Move Cars
-      cars.forEach(car => {
-        car.angle += car.speed;
-        const nextX = Math.cos(car.angle + 0.1) * car.radius;
-        const nextZ = Math.sin(car.angle + 0.1) * car.radius;
-        car.mesh.position.set(Math.cos(car.angle) * car.radius, 0, Math.sin(car.angle) * car.radius);
-        car.mesh.lookAt(nextX, 0, nextZ);
-      });
 
       // Giant Bouncing Soccer Ball
       if (soccerBall) {
