@@ -1,0 +1,250 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  --color-glow-indigo: var(--glow-indigo);
+  --color-glow-magenta: var(--glow-magenta);
+  --color-glow-ember: var(--glow-ember);
+}
+
+:root {
+  --radius: 0.875rem;
+
+  /* Deep near-black base */
+  --background: oklch(0.14 0.03 285);
+  --foreground: oklch(0.98 0.005 260);
+
+  --card: oklch(0.18 0.04 285 / 0.6);
+  --card-foreground: oklch(0.98 0.005 260);
+  --popover: oklch(0.16 0.03 285);
+  --popover-foreground: oklch(0.98 0.005 260);
+
+  --primary: oklch(0.98 0.005 260);
+  --primary-foreground: oklch(0.14 0.03 285);
+
+  --secondary: oklch(0.24 0.04 285);
+  --secondary-foreground: oklch(0.98 0.005 260);
+
+  --muted: oklch(0.22 0.03 285);
+  --muted-foreground: oklch(0.72 0.03 275);
+
+  --accent: oklch(0.68 0.19 30); /* warm coral accent */
+  --accent-foreground: oklch(0.14 0.03 285);
+
+  --destructive: oklch(0.62 0.24 27);
+  --destructive-foreground: oklch(0.98 0.005 260);
+
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: oklch(0.68 0.19 30 / 0.5);
+
+  /* Signature gradient glows */
+  --glow-indigo: #3a2a8a;
+  --glow-magenta: #a8306c;
+  --glow-ember: #c9432a;
+}
+
+.dark {
+  --background: oklch(0.14 0.03 285);
+  --foreground: oklch(0.98 0.005 260);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Animated aurora background — matches ayushpatra.com reference */
+@utility aurora-bg {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--color-background);
+  overflow: hidden;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(60px);
+    opacity: 0.85;
+  }
+
+  &::before {
+    background:
+      radial-gradient(45% 40% at 20% 30%, var(--glow-indigo) 0%, transparent 60%),
+      radial-gradient(50% 45% at 80% 25%, var(--glow-ember) 0%, transparent 60%),
+      radial-gradient(55% 50% at 55% 75%, var(--glow-magenta) 0%, transparent 60%);
+    animation: aurora-drift-a 22s ease-in-out infinite alternate;
+  }
+
+  &::after {
+    background:
+      radial-gradient(40% 35% at 70% 60%, var(--glow-indigo) 0%, transparent 65%),
+      radial-gradient(45% 40% at 30% 70%, var(--glow-magenta) 0%, transparent 65%);
+    animation: aurora-drift-b 30s ease-in-out infinite alternate;
+    mix-blend-mode: screen;
+    opacity: 0.6;
+  }
+}
+
+@keyframes aurora-drift-a {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(4%, -3%, 0) scale(1.1);
+  }
+}
+
+@keyframes aurora-drift-b {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(-5%, 4%, 0) scale(1);
+  }
+}
+
+/* Roaming car — travels along the island road */
+@keyframes car-roam {
+  0% {
+    transform: translate(0%, 0%);
+  }
+  25% {
+    transform: translate(30%, -6%);
+  }
+  50% {
+    transform: translate(55%, 4%);
+  }
+  75% {
+    transform: translate(25%, 12%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+}
+
+@utility car-roam {
+  animation: car-roam 18s ease-in-out infinite;
+}
+
+/* Landmark hotspot */
+@utility landmark {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  border-radius: 9999px;
+  transition:
+    transform 300ms ease,
+    filter 300ms ease;
+
+  &:hover {
+    transform: translate(-50%, -55%) scale(1.02);
+    filter: drop-shadow(0 12px 30px rgba(255, 180, 100, 0.35));
+  }
+
+  &:hover .landmark-label {
+    opacity: 1;
+    transform: translate(-50%, -8px);
+  }
+}
+
+@utility landmark-label {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translate(-50%, 4px);
+  padding: 0.4rem 0.9rem;
+  border-radius: 9999px;
+  background: oklch(0.14 0.03 285 / 0.85);
+  color: oklch(0.98 0.005 260);
+  border: 1px solid oklch(1 0 0 / 0.12);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 250ms ease,
+    transform 250ms ease;
+  backdrop-filter: blur(8px);
+}
+
+@utility pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  border-radius: 9999px;
+  background: oklch(1 0 0 / 0.06);
+  border: 1px solid oklch(1 0 0 / 0.1);
+  backdrop-filter: blur(12px);
+  font-size: 0.8rem;
+  color: oklch(0.95 0.005 260);
+  transition:
+    background 200ms ease,
+    transform 200ms ease;
+
+  &:hover {
+    background: oklch(1 0 0 / 0.12);
+    transform: translateY(-1px);
+  }
+}
