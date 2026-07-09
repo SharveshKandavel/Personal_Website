@@ -322,7 +322,7 @@ export function Universe() {
       antGlow.position.y = floors * 0.6 + 1.5;
       g.add(antGlow);
 
-      pick(g, "/experience", "Experience", 3.0, 12.0); // Tall Cylinder Hitbox
+      pick(g, "/experience", "Experience", 1.5, 12.0); // Tall Cylinder Hitbox
       scene.add(g);
     }
 
@@ -592,8 +592,6 @@ export function Universe() {
 
     // Restored to their original spots on the overlapping layout
     addSpire(-5, -9, 5); 
-    addSpire(4, -8, 6);
-    addSpire(9, -2, 4);
     addSpire(-2, 13, 7);
 
     addDataCenter(4, 9, -Math.PI/4);
