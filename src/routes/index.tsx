@@ -11,9 +11,12 @@ export const Route = createFileRoute("/")({
 function Index() {
   const navigate = useNavigate();
 
-  const handleBuildingEnter = useCallback((route: string) => {
-    navigate({ to: route });
-  }, [navigate]);
+  const handleBuildingEnter = useCallback(
+    (route: string) => {
+      navigate({ to: route });
+    },
+    [navigate],
+  );
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-black">
@@ -23,5 +26,3 @@ function Index() {
     </div>
   );
 }
-
-

@@ -8,14 +8,12 @@ export const Route = createFileRoute("/experience")({
       { title: "Experience — Sharvesh Kandavel" },
       {
         name: "description",
-        content:
-          "Experience across fintech, robotics, and AI/ML — currently building at Credvan.",
+        content: "Experience across fintech, robotics, and AI/ML — currently building at Credvan.",
       },
       { property: "og:title", content: "Experience — Sharvesh Kandavel" },
       {
         property: "og:description",
-        content:
-          "Experience across fintech, robotics, and AI/ML — currently building at Credvan.",
+        content: "Experience across fintech, robotics, and AI/ML — currently building at Credvan.",
       },
       { property: "og:url", content: "/experience" },
     ],
@@ -50,7 +48,10 @@ function ExperiencePage() {
     <div className="bg-black relative min-h-screen text-white">
       <SiteChrome />
       <main className="mx-auto max-w-4xl px-6 py-32">
-        <Link to="/" className="mb-10 inline-flex items-center gap-2 border border-white/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black">
+        <Link
+          to="/"
+          className="mb-10 inline-flex items-center gap-2 border border-white/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black"
+        >
           <ArrowLeft className="h-4 w-4" /> Back to universe
         </Link>
 
@@ -74,9 +75,11 @@ function ExperiencePage() {
                     {r.company === "IIT Madras" ? r.role : r.company}
                   </p>
                 </div>
-                <span className="mt-4 sm:mt-0 font-mono text-xs uppercase tracking-widest text-white/60">{r.when}</span>
+                <span className="mt-4 sm:mt-0 font-mono text-xs uppercase tracking-widest text-white/60">
+                  {r.when}
+                </span>
               </div>
-              
+
               <div className="relative pl-4 sm:pl-6 border-l-2 border-white/10 group-hover:border-white/30 transition-colors duration-300">
                 <p className="text-[15px] leading-relaxed text-white/80 font-sans tracking-wide">
                   {r.body}

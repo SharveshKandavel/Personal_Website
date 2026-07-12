@@ -60,7 +60,7 @@ export function CustomCursor() {
       // Check if hovering over text
       const target = document.elementFromPoint(e.clientX, e.clientY);
       const hoveringText = target?.matches(TEXT_SELECTORS) ?? false;
-      
+
       if (hoveringText !== isText.current) {
         isText.current = hoveringText;
         if (dotRef.current) {
@@ -93,7 +93,7 @@ export function CustomCursor() {
 
     const animate = () => {
       rafId.current = requestAnimationFrame(animate);
-      
+
       const dot = dotRef.current;
       if (!dot) return;
 

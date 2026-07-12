@@ -19,8 +19,7 @@ import {
 /* ─── Types ─────────────────────────────────────────────────────────── */
 
 type IconComponent =
-  | ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }>
-  | ComponentType<LucideProps>;
+  ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }> | ComponentType<LucideProps>;
 
 interface Skill {
   name: string;
@@ -182,9 +181,7 @@ function SkillPill({
       <span
         style={{
           ...iconBase,
-          transform: mounted
-            ? "scale(1)"
-            : "scale(0)",
+          transform: mounted ? "scale(1)" : "scale(0)",
           transitionDelay: `${delay}ms`,
         }}
         onMouseEnter={(e) => {
@@ -217,7 +214,9 @@ export function OrbitingSkills() {
   const [mounted, setMounted] = useState(false);
   const isMobile = useIsMobile();
 
-  useEffect(() => { ensureKeyframes(); }, []);
+  useEffect(() => {
+    ensureKeyframes();
+  }, []);
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 80);
     return () => clearTimeout(t);
@@ -264,13 +263,23 @@ export function OrbitingSkills() {
   /* ── Mobile ── */
   if (isMobile) {
     return (
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem", justifyContent: "center", padding: "1.5rem 0" }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "0.6rem",
+          justifyContent: "center",
+          padding: "1.5rem 0",
+        }}
+      >
         {ALL_SKILLS.map((skill, i) => (
           <span
             key={skill.name}
             style={{
               ...iconBase,
-              animation: mounted ? `os-float ${3 + (i % 4) * 0.7}s ${i * 0.15}s ease-in-out infinite` : "none",
+              animation: mounted
+                ? `os-float ${3 + (i % 4) * 0.7}s ${i * 0.15}s ease-in-out infinite`
+                : "none",
               opacity: mounted ? 1 : 0,
               transform: mounted ? "translateY(0) scale(1)" : "translateY(12px) scale(0.85)",
               transition: `opacity 400ms ${i * 40}ms ease, transform 400ms ${i * 40}ms ease`,
@@ -297,7 +306,16 @@ export function OrbitingSkills() {
       }}
     >
       {/* ── Core ── */}
-      <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 10, pointerEvents: "none" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%,-50%)",
+          zIndex: 10,
+          pointerEvents: "none",
+        }}
+      >
         <div
           style={{
             position: "relative",
@@ -317,10 +335,46 @@ export function OrbitingSkills() {
           }}
         >
           {/* Target crosshairs */}
-          <div style={{ position: "absolute", top: -8, left: "50%", width: 1, height: 16, background: "rgba(0,255,255,0.5)" }} />
-          <div style={{ position: "absolute", bottom: -8, left: "50%", width: 1, height: 16, background: "rgba(0,255,255,0.5)" }} />
-          <div style={{ position: "absolute", left: -8, top: "50%", width: 16, height: 1, background: "rgba(0,255,255,0.5)" }} />
-          <div style={{ position: "absolute", right: -8, top: "50%", width: 16, height: 1, background: "rgba(0,255,255,0.5)" }} />
+          <div
+            style={{
+              position: "absolute",
+              top: -8,
+              left: "50%",
+              width: 1,
+              height: 16,
+              background: "rgba(0,255,255,0.5)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: -8,
+              left: "50%",
+              width: 1,
+              height: 16,
+              background: "rgba(0,255,255,0.5)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              left: -8,
+              top: "50%",
+              width: 16,
+              height: 1,
+              background: "rgba(0,255,255,0.5)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              right: -8,
+              top: "50%",
+              width: 16,
+              height: 1,
+              background: "rgba(0,255,255,0.5)",
+            }}
+          />
           STACK
         </div>
       </div>

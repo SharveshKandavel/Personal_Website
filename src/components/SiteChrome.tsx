@@ -21,7 +21,6 @@ export function SiteChrome({ name = "Sharvesh Kandavel" }: { name?: string }) {
         {name}.
       </Link>
 
-
       {/* Left vertical nav */}
       <nav className="fixed left-6 top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-6 md:flex">
         {NAV_ITEMS.map((item) => (

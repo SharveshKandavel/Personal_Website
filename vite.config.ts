@@ -10,12 +10,7 @@ export default defineConfig({
     tsconfigPaths({ projects: ["./tsconfig.json"] }),
     tanstackStart({
       server: {
-        preset: "static",
         entry: "server",
-        prerender: {
-          routes: ["/"],
-          crawlLinks: true
-        }
       },
     }),
     react(),

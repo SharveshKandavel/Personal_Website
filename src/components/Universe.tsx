@@ -12,7 +12,6 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
   const [hovered, setHovered] = useState<string | null>(null);
   const [nearBuilding, setNearBuilding] = useState<{ label: string; to: string } | null>(null);
 
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -49,7 +48,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
         emissiveIntensity: 2.0,
         roughness: 0.2,
         metalness: 0.8,
-      })
+      }),
     );
     playerCore.castShadow = true;
     playerGroup.add(playerCore);
@@ -63,7 +62,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
         emissiveIntensity: 1.5,
         transparent: true,
         opacity: 0.5,
-      })
+      }),
     );
     playerRing.rotation.x = Math.PI / 2;
     playerGroup.add(playerRing);
@@ -111,31 +110,34 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
 
     const onKeyDown = (e: KeyboardEvent) => {
       keys[e.key.toLowerCase()] = true;
-      if (['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(e.key.toLowerCase())) {
+      if (
+        ["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(
+          e.key.toLowerCase(),
+        )
+      ) {
         if (!hasInteracted) {
           hasInteracted = true;
-
         }
         e.preventDefault();
       }
       // Enter key to enter a building
-      if (e.key === 'Enter') {
+      if (e.key === "Enter") {
         e.preventDefault();
       }
     };
     const onKeyUp = (e: KeyboardEvent) => {
       keys[e.key.toLowerCase()] = false;
     };
-    window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('keyup', onKeyUp);
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
 
     // Building positions for proximity detection
     const buildingPositions = [
-      { pos: new THREE.Vector3(6, 0, 6), label: 'About', to: '/about', radius: 4 },
-      { pos: new THREE.Vector3(7, 0, -3), label: 'Experience', to: '/experience', radius: 3.5 },
-      { pos: new THREE.Vector3(-5, 0, 5), label: 'Projects', to: '/projects', radius: 4 },
-      { pos: new THREE.Vector3(-7, 0, -4), label: 'Hobbies', to: '/hobbies', radius: 3.5 },
-      { pos: new THREE.Vector3(0, 0, -7), label: 'Contact', to: '/contact', radius: 4 },
+      { pos: new THREE.Vector3(6, 0, 6), label: "About", to: "/about", radius: 4 },
+      { pos: new THREE.Vector3(7, 0, -3), label: "Experience", to: "/experience", radius: 3.5 },
+      { pos: new THREE.Vector3(-5, 0, 5), label: "Projects", to: "/projects", radius: 4 },
+      { pos: new THREE.Vector3(-7, 0, -4), label: "Hobbies", to: "/hobbies", radius: 3.5 },
+      { pos: new THREE.Vector3(0, 0, -7), label: "Contact", to: "/contact", radius: 4 },
     ];
 
     // References for proximity-based glow enhancement
@@ -185,9 +187,12 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       return m;
     };
 
-    const bx = (w: number, h: number, d: number, mat: THREE.Material) => s(new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat));
-    const cy = (rT: number, rB: number, h: number, sg: number, mat: THREE.Material) => s(new THREE.Mesh(new THREE.CylinderGeometry(rT, rB, h, sg), mat));
-    const sp = (r: number, mat: THREE.Material) => s(new THREE.Mesh(new THREE.SphereGeometry(r, 32, 32), mat));
+    const bx = (w: number, h: number, d: number, mat: THREE.Material) =>
+      s(new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat));
+    const cy = (rT: number, rB: number, h: number, sg: number, mat: THREE.Material) =>
+      s(new THREE.Mesh(new THREE.CylinderGeometry(rT, rB, h, sg), mat));
+    const sp = (r: number, mat: THREE.Material) =>
+      s(new THREE.Mesh(new THREE.SphereGeometry(r, 32, 32), mat));
 
     /* ── Palette ─────────────────────────────────────────────────────────── */
     const BASE_MAT = mkMat(0xffffff, 0.8, 0.1); // Sleek white concrete
@@ -201,7 +206,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
        BASE PLATFORM (Modern intersecting sleek discs)
     ══════════════════════════════════════════════════════════════════════ */
     const baseGroup = new THREE.Group();
-    
+
     // Distinct subtle colors for each district's concrete
     const MAT_D1 = mkMat(0x0a101a, 0.8, 0.2); // Midnight Blue
     const MAT_D2 = mkMat(0x0a1610, 0.8, 0.2); // Deep Emerald
@@ -229,7 +234,8 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
 
     // Glowing LED embedded paths connecting everything
     const addPathLine = (x1: number, z1: number, x2: number, z2: number) => {
-      const dx = x2 - x1, dz = z2 - z1;
+      const dx = x2 - x1,
+        dz = z2 - z1;
       const len = Math.sqrt(dx * dx + dz * dz);
       const line = bx(0.2, 0.02, len, GLOW_BLUE);
       line.position.set((x1 + x2) / 2, 0.01, (z1 + z2) / 2);
@@ -238,12 +244,12 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
     };
 
     // Connect centers
-    addPathLine(6, 6, 0, 0);          // To About
-    addPathLine(0, 0, 7, -3);         // To Experience
-    addPathLine(0, 0, -5, 5);         // To Projects
-    addPathLine(0, 0, 0, -7);         // To Contact
-    addPathLine(0, 0, -7, -4);        // To Hobbies
-    addPathLine(0, 0, 1.5, 13);       // To Entrance Plaza
+    addPathLine(6, 6, 0, 0); // To About
+    addPathLine(0, 0, 7, -3); // To Experience
+    addPathLine(0, 0, -5, 5); // To Projects
+    addPathLine(0, 0, 0, -7); // To Contact
+    addPathLine(0, 0, -7, -4); // To Hobbies
+    addPathLine(0, 0, 1.5, 13); // To Entrance Plaza
 
     // Central Hub Ring
     const hubRing = cy(2.5, 2.5, 0.02, 32, PATH_MAT);
@@ -270,30 +276,30 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
 
     const makeLetter = (char: string) => {
       const g = new THREE.Group();
-      if (char === 'S') {
+      if (char === "S") {
         g.add(makeLBox(0.8, 0.2, 0, 0.9));
         g.add(makeLBox(0.2, 0.4, -0.3, 0.6));
         g.add(makeLBox(0.8, 0.2, 0, 0.5));
         g.add(makeLBox(0.2, 0.4, 0.3, 0.3));
         g.add(makeLBox(0.8, 0.2, 0, 0.1));
-      } else if (char === 'H') {
+      } else if (char === "H") {
         g.add(makeLBox(0.2, 1.0, -0.3, 0.5));
         g.add(makeLBox(0.2, 1.0, 0.3, 0.5));
         g.add(makeLBox(0.4, 0.2, 0, 0.5));
-      } else if (char === 'A') {
+      } else if (char === "A") {
         g.add(makeLBox(0.2, 1.05, -0.2, 0.5, -0.18)); // left leg tilts right (/)
-        g.add(makeLBox(0.2, 1.05, 0.2, 0.5, 0.18));   // right leg tilts left (\)
+        g.add(makeLBox(0.2, 1.05, 0.2, 0.5, 0.18)); // right leg tilts left (\)
         g.add(makeLBox(0.4, 0.2, 0, 0.4));
-      } else if (char === 'R') {
+      } else if (char === "R") {
         g.add(makeLBox(0.2, 1.0, -0.3, 0.5));
         g.add(makeLBox(0.5, 0.2, 0.05, 0.9));
         g.add(makeLBox(0.5, 0.2, 0.05, 0.5));
         g.add(makeLBox(0.2, 0.4, 0.3, 0.7));
         g.add(makeLBox(0.2, 0.5, 0.2, 0.25, 0.35)); // right angled leg tilts left (\)
-      } else if (char === 'V') {
-        g.add(makeLBox(0.2, 1.05, -0.2, 0.5, 0.25));  // left leg tilts left (\)
-        g.add(makeLBox(0.2, 1.05, 0.2, 0.5, -0.25));  // right leg tilts right (/)
-      } else if (char === 'E') {
+      } else if (char === "V") {
+        g.add(makeLBox(0.2, 1.05, -0.2, 0.5, 0.25)); // left leg tilts left (\)
+        g.add(makeLBox(0.2, 1.05, 0.2, 0.5, -0.25)); // right leg tilts right (/)
+      } else if (char === "E") {
         g.add(makeLBox(0.2, 1.0, -0.3, 0.5));
         g.add(makeLBox(0.6, 0.2, 0.1, 0.9));
         g.add(makeLBox(0.5, 0.2, 0.05, 0.5));
@@ -307,12 +313,12 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       const lg = makeLetter(char);
       lg.position.x = (i - (word.length - 1) / 2) * 1.1;
       lg.position.y = 0.2; // Slightly off the ground
-      
+
       // Add a small metal support pillar for each letter
       const support = cy(0.05, 0.05, 0.3, 4, DARK_MAT);
       support.position.set((i - (word.length - 1) / 2) * 1.1, 0.1, -0.1);
       signGroup.add(support);
-      
+
       signGroup.add(lg);
     });
 
@@ -335,12 +341,18 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       let hitMesh: THREE.Mesh;
       if (hitHeight > 0) {
         // Tall towers get massive cylinders to catch tip hovers
-        hitMesh = new THREE.Mesh(new THREE.CylinderGeometry(r, r, hitHeight, 16), new THREE.MeshBasicMaterial({ visible: false }));
+        hitMesh = new THREE.Mesh(
+          new THREE.CylinderGeometry(r, r, hitHeight, 16),
+          new THREE.MeshBasicMaterial({ visible: false }),
+        );
         hitMesh.position.y = hitHeight / 2;
       } else {
         // Wide/normal buildings get standard spheres
-        hitMesh = new THREE.Mesh(new THREE.SphereGeometry(r, 16, 16), new THREE.MeshBasicMaterial({ visible: false }));
-        hitMesh.position.y = r; 
+        hitMesh = new THREE.Mesh(
+          new THREE.SphereGeometry(r, 16, 16),
+          new THREE.MeshBasicMaterial({ visible: false }),
+        );
+        hitMesh.position.y = r;
       }
       hitMesh.userData = { to, label };
       parent.add(hitMesh);
@@ -384,7 +396,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       const ant = cy(0.1, 0.1, 1.0, 8, BASE_MAT);
       ant.position.set(-0.8, 3.6, -0.8);
       g.add(ant);
-      
+
       const antGlow = sp(0.15, GLOW_GREEN);
       antGlow.position.set(-0.8, 4.1, -0.8);
       g.add(antGlow);
@@ -403,8 +415,8 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       for (let i = 0; i < floors; i++) {
         const fh = 0.6;
         const fy = i * fh + fh / 2;
-        const scale = 1.0 - (i * 0.05);
-        
+        const scale = 1.0 - i * 0.05;
+
         const floorGrp = new THREE.Group();
         floorGrp.position.y = fy;
         floorGrp.rotation.y = i * 0.15;
@@ -425,7 +437,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       const ant = cy(0.05, 0.05, 1.5, 8, DARK_MAT);
       ant.position.y = floors * 0.6 + 0.75;
       g.add(ant);
-      
+
       const antGlow = sp(0.1, GLOW_GREEN);
       antGlow.position.y = floors * 0.6 + 1.5;
       g.add(antGlow);
@@ -439,7 +451,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
     {
       const g = new THREE.Group();
       g.position.set(-5, 0, 5);
-      
+
       // Main Projection Ring
       const ringGeo = new THREE.TorusGeometry(1.6, 0.4, 16, 48);
       const ring = new THREE.Mesh(ringGeo, GLASS_MAT);
@@ -461,21 +473,26 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       // Massive Floating Holographic Wireframe Gem
       gradCapGrp = new THREE.Group();
       const gemGeo = new THREE.IcosahedronGeometry(1.0, 0);
-      const gemMat = new THREE.MeshBasicMaterial({ color: 0x00ccff, wireframe: true, transparent: true, opacity: 0.3 });
+      const gemMat = new THREE.MeshBasicMaterial({
+        color: 0x00ccff,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.3,
+      });
       const gem = new THREE.Mesh(gemGeo, gemMat);
-      
+
       // Inner glowing core of the gem
       const innerGem = new THREE.Mesh(gemGeo, mkMat(0x00ccff, 0.4, 0.2));
       innerGem.scale.setScalar(0.7);
-      
+
       gradCapGrp.add(gem);
       gradCapGrp.add(innerGem);
-      
+
       // Lighting shadow/glow from the base
       const baseLight = new THREE.PointLight(0x00ccff, 4.0, 6.0);
       baseLight.position.set(0, 0.5, 0); // Positioned right above the base, under the gem
       g.add(baseLight);
-      
+
       g.add(gradCapGrp);
 
       pick(g, "/projects", "Projects", 3.0);
@@ -505,15 +522,15 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       // Small Bouncing Soccer Ball
       soccerBall = new THREE.Group();
       // White base sphere
-      soccerBall.add(sp(0.6, mkMat(0xffffff))); 
-      
+      soccerBall.add(sp(0.6, mkMat(0xffffff)));
+
       // Black pentagonal seams using a wireframe Dodecahedron
       const seamsMat = new THREE.MeshStandardMaterial({ color: 0x111111, wireframe: true });
       const seams = new THREE.Mesh(new THREE.DodecahedronGeometry(0.605, 0), seamsMat);
-      
+
       // Add a second layer of geometry for complexity
       const seams2 = new THREE.Mesh(new THREE.IcosahedronGeometry(0.605, 1), seamsMat);
-      
+
       soccerBall.add(seams);
       soccerBall.add(seams2);
       soccerBall.position.set(0, 1.0, 0);
@@ -521,8 +538,8 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       g.add(soccerBall);
 
       // High-tech floating screens
-      for(let i=0; i<4; i++) {
-        const a = (i/4) * Math.PI * 2;
+      for (let i = 0; i < 4; i++) {
+        const a = (i / 4) * Math.PI * 2;
         const screen = bx(0.8, 0.5, 0.05, GLOW_BLUE);
         screen.position.set(Math.cos(a) * 2.2, 1.5, Math.sin(a) * 2.2);
         screen.lookAt(0, 1.5, 0);
@@ -546,13 +563,13 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
 
       // Middle floating segments
       for (let i = 0; i < 4; i++) {
-        const seg = cy(0.6 - i*0.1, 0.7 - i*0.1, 0.8, 4, BASE_MAT);
+        const seg = cy(0.6 - i * 0.1, 0.7 - i * 0.1, 0.8, 4, BASE_MAT);
         seg.position.y = 1.6 + i * 1.0;
         seg.rotation.y = i * 0.2;
         g.add(seg);
-        
+
         // Glow ring
-        const ring = cy(0.65 - i*0.1, 0.65 - i*0.1, 0.05, 4, GLOW_BLUE);
+        const ring = cy(0.65 - i * 0.1, 0.65 - i * 0.1, 0.05, 4, GLOW_BLUE);
         ring.position.y = 1.15 + i * 1.0;
         ring.rotation.y = i * 0.2;
         g.add(ring);
@@ -612,10 +629,22 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
     };
 
     [
-      [2, 2, 1.0], [3, 1, 0.8], [-2, 2, 1.2], [-3, 1.5, 0.9],
-      [1, -2, 1.1], [3, -1, 0.8], [-3, -2, 1.0], [-1, -5, 1.3],
-      [7, 1, 1.1], [5, -1, 0.9], [-4, -6, 0.8], [-7, 0, 1.2],
-      [-1, 12, 1.1], [4, 11, 0.9], [0, 11, 0.8], [4, 16, 1.0] // Trees framing the entrance
+      [2, 2, 1.0],
+      [3, 1, 0.8],
+      [-2, 2, 1.2],
+      [-3, 1.5, 0.9],
+      [1, -2, 1.1],
+      [3, -1, 0.8],
+      [-3, -2, 1.0],
+      [-1, -5, 1.3],
+      [7, 1, 1.1],
+      [5, -1, 0.9],
+      [-4, -6, 0.8],
+      [-7, 0, 1.2],
+      [-1, 12, 1.1],
+      [4, 11, 0.9],
+      [0, 11, 0.8],
+      [4, 16, 1.0], // Trees framing the entrance
     ].forEach(([x, z, s]) => addTechTree(x, z, s));
 
     /* ── AMBIENT CITYSCAPE (Non-interactive towers & structures) ──────────── */
@@ -638,22 +667,22 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
     const addDataCenter = (x: number, z: number, rotY: number) => {
       const g = new THREE.Group();
       g.rotation.y = rotY;
-      
+
       const b1 = bx(1.5, 0.8, 1.2, BASE_MAT);
       b1.position.y = 0.4;
       g.add(b1);
-      
+
       const b2 = bx(1.0, 0.6, 0.8, DARK_MAT);
       b2.position.y = 1.1;
       g.add(b2);
 
       // Neon strips
-      for(let i=0; i<3; i++) {
+      for (let i = 0; i < 3; i++) {
         const strip = bx(1.05, 0.05, 0.85, GLOW_GREEN);
-        strip.position.y = 0.9 + i*0.2;
+        strip.position.y = 0.9 + i * 0.2;
         g.add(strip);
       }
-      
+
       g.position.set(x, 0, z);
       ambientGrp.add(g);
     };
@@ -671,12 +700,12 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
 
       const ring = new THREE.Mesh(new THREE.TorusGeometry(0.7, 0.05, 6, 16), DARK_MAT);
       ring.position.y = 0.6;
-      ring.rotation.x = Math.PI/2;
+      ring.rotation.x = Math.PI / 2;
       g.add(ring);
-      
+
       const floatRing = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.05, 6, 16), GLOW_BLUE);
       floatRing.position.y = 1.0;
-      floatRing.rotation.x = Math.PI/2;
+      floatRing.rotation.x = Math.PI / 2;
       g.add(floatRing);
 
       g.position.set(x, 0, z);
@@ -684,12 +713,12 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
     };
 
     // Restored to their original spots on the overlapping layout
-    addSpire(-5, -9, 5); 
+    addSpire(-5, -9, 5);
     addSpire(-2, 13, 7);
 
-    addDataCenter(4, 9, -Math.PI/4);
-    addDataCenter(-9.5, 1, -Math.PI/6);
-    addDataCenter(-2.5, -5.5, Math.PI/8);
+    addDataCenter(4, 9, -Math.PI / 4);
+    addDataCenter(-9.5, 1, -Math.PI / 6);
+    addDataCenter(-2.5, -5.5, Math.PI / 8);
 
     addCoil(-1, 10);
     addCoil(-2, 7);
@@ -699,7 +728,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
 
     /* ── FLYING DRONES ────────────────────────────────────────────────────── */
     const drones: { g: THREE.Group; t: number; speed: number; r: number }[] = [];
-    for(let i=0; i<4; i++) {
+    for (let i = 0; i < 4; i++) {
       const dg = new THREE.Group();
       const core = bx(0.3, 0.05, 0.3, DARK_MAT);
       dg.add(core);
@@ -707,7 +736,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       light.position.y = -0.05;
       dg.add(light);
       scene.add(dg);
-      drones.push({ g: dg, t: i * 0.25, speed: 0.002 + i*0.001, r: 5 + i*1.5 });
+      drones.push({ g: dg, t: i * 0.25, speed: 0.002 + i * 0.001, r: 5 + i * 1.5 });
     }
 
     /* ── INTERACTION (click fallback + WASD primary) ───────────────────── */
@@ -718,9 +747,9 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       raycaster.setFromCamera(
         new THREE.Vector2(
           ((e.clientX - rect.left) / rect.width) * 2 - 1,
-          -((e.clientY - rect.top) / rect.height) * 2 + 1
+          -((e.clientY - rect.top) / rect.height) * 2 + 1,
         ),
-        camera
+        camera,
       );
       const hits = raycaster.intersectObjects(clickMeshes);
       if (hits.length) {
@@ -744,9 +773,9 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       raycaster.setFromCamera(
         new THREE.Vector2(
           ((e.clientX - rect.left) / rect.width) * 2 - 1,
-          -((e.clientY - rect.top) / rect.height) * 2 + 1
+          -((e.clientY - rect.top) / rect.height) * 2 + 1,
         ),
-        camera
+        camera,
       );
       const hits = raycaster.intersectObjects(clickMeshes);
       if (hits.length) {
@@ -762,9 +791,9 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
         raycaster.setFromCamera(
           new THREE.Vector2(
             ((touch.clientX - rect.left) / rect.width) * 2 - 1,
-            -((touch.clientY - rect.top) / rect.height) * 2 + 1
+            -((touch.clientY - rect.top) / rect.height) * 2 + 1,
           ),
-          camera
+          camera,
         );
         const hits = raycaster.intersectObjects(clickMeshes);
         if (hits.length) {
@@ -803,10 +832,22 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       /* ── Player movement ───────────────────────────────────────────── */
       // Camera-relative movement direction (isometric)
       const moveDir = new THREE.Vector3();
-      if (keys['w'] || keys['arrowup'])    { moveDir.x -= 1; moveDir.z -= 1; }
-      if (keys['s'] || keys['arrowdown'])  { moveDir.x += 1; moveDir.z += 1; }
-      if (keys['a'] || keys['arrowleft'])  { moveDir.x -= 1; moveDir.z += 1; }
-      if (keys['d'] || keys['arrowright']) { moveDir.x += 1; moveDir.z -= 1; }
+      if (keys["w"] || keys["arrowup"]) {
+        moveDir.x -= 1;
+        moveDir.z -= 1;
+      }
+      if (keys["s"] || keys["arrowdown"]) {
+        moveDir.x += 1;
+        moveDir.z += 1;
+      }
+      if (keys["a"] || keys["arrowleft"]) {
+        moveDir.x -= 1;
+        moveDir.z += 1;
+      }
+      if (keys["d"] || keys["arrowright"]) {
+        moveDir.x += 1;
+        moveDir.z -= 1;
+      }
 
       if (moveDir.lengthSq() > 0) {
         moveDir.normalize().multiplyScalar(PLAYER_SPEED);
@@ -858,7 +899,11 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       if (introTime < 1.0) {
         introTime += 0.002;
         const easeOutQuart = 1 - Math.pow(1 - introTime, 4);
-        currentCameraOffset.lerpVectors(new THREE.Vector3(2, 2, 2), targetCameraOffset, easeOutQuart);
+        currentCameraOffset.lerpVectors(
+          new THREE.Vector3(2, 2, 2),
+          targetCameraOffset,
+          easeOutQuart,
+        );
       }
 
       /* ── Camera follow ──────────────────────────────────────────────── */
@@ -867,7 +912,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       camera.lookAt(playerGroup.position);
 
       /* ── Proximity detection ────────────────────────────────────────── */
-      let closest: typeof buildingPositions[0] | null = null;
+      let closest: (typeof buildingPositions)[0] | null = null;
       let closestDist = Infinity;
       for (const bp of buildingPositions) {
         const d = playerGroup.position.distanceTo(bp.pos);
@@ -884,8 +929,8 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
           setHovered(closest.label);
         }
         // Enter building on Enter key
-        if (keys['enter']) {
-          keys['enter'] = false;
+        if (keys["enter"]) {
+          keys["enter"] = false;
           if (onBuildingEnterRef.current) onBuildingEnterRef.current(closest.to);
         }
       } else {
@@ -910,14 +955,14 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
         gradCapGrp.rotation.y = t * 0.8;
         gradCapGrp.rotation.z = Math.sin(t * 1.5) * 0.1;
         if (gradCapGrp.children[1]) {
-           gradCapGrp.children[1].rotation.y = -t * 1.6;
-           gradCapGrp.children[1].rotation.x = t * 1.2;
+          gradCapGrp.children[1].rotation.y = -t * 1.6;
+          gradCapGrp.children[1].rotation.x = t * 1.2;
         }
       }
 
       // Rotate Lighthouse Orb Rings
       if (lighthouseBeam) {
-        lighthouseBeam.children[1].rotation.x = Math.PI/2 + Math.sin(t) * 0.3;
+        lighthouseBeam.children[1].rotation.x = Math.PI / 2 + Math.sin(t) * 0.3;
         lighthouseBeam.children[1].rotation.y = t * 1.5;
       }
 
@@ -937,7 +982,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       });
 
       // Animate ambient energy coils
-      ambientGrp.children.forEach(child => {
+      ambientGrp.children.forEach((child) => {
         if (child.children.length === 4) {
           child.children[2].rotation.z = t * 2;
           child.children[3].rotation.z = -t * 3;
@@ -966,8 +1011,8 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       canvas.removeEventListener("click", onClick);
       canvas.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener('keydown', onKeyDown);
-      window.removeEventListener('keyup', onKeyUp);
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keyup", onKeyUp);
       renderer.dispose();
     };
   }, []);
@@ -990,7 +1035,9 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       {/* Permanent Controls Hint */}
       <div className="pointer-events-none absolute bottom-8 left-0 right-0 z-50 flex justify-center">
         <div className="border border-black/10 bg-white/80 px-6 py-3 font-mono text-xs uppercase tracking-widest text-black/70 shadow-sm backdrop-blur-md hidden sm:block">
-          Use <kbd className="font-bold text-black border-b border-black/20">W A S D</kbd> to move · Press <kbd className="font-bold text-black border-b border-black/20">Enter</kbd> near buildings to enter
+          Use <kbd className="font-bold text-black border-b border-black/20">W A S D</kbd> to move ·
+          Press <kbd className="font-bold text-black border-b border-black/20">Enter</kbd> near
+          buildings to enter
         </div>
         <div className="border border-black/10 bg-white/80 px-6 py-3 font-mono text-[10px] uppercase tracking-widest text-black/70 shadow-sm backdrop-blur-md sm:hidden text-center max-w-[80%] rounded-lg">
           Tap on buildings to enter

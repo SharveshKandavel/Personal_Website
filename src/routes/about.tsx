@@ -76,7 +76,10 @@ function AboutPage() {
     <div className="bg-black relative min-h-screen text-white">
       <SiteChrome />
       <main className="mx-auto max-w-3xl px-6 py-20">
-        <Link to="/" className="mb-8 inline-flex items-center gap-2 border border-white/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black">
+        <Link
+          to="/"
+          className="mb-8 inline-flex items-center gap-2 border border-white/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black"
+        >
           <ArrowLeft className="h-4 w-4" /> Back to universe
         </Link>
 
@@ -85,23 +88,27 @@ function AboutPage() {
         <div className="mt-8 space-y-4 text-lg text-white leading-relaxed max-w-2xl">
           <p>
             Hi — I&apos;m a <strong>Mechatronics Engineering</strong> student at the{" "}
-            <strong>University of Waterloo</strong>. I operate at the exact intersection of hardware,
-            software, and product design.
+            <strong>University of Waterloo</strong>. I operate at the exact intersection of
+            hardware, software, and product design.
           </p>
           <p>
-            I&apos;m driven by the challenge of building systems that solve tangible problems. Whether
-            it&apos;s engineering fintech tools that move money, designing autonomous robots that see and sort,
-            or training models that learn from data—I love bringing bold ideas to life.
+            I&apos;m driven by the challenge of building systems that solve tangible problems.
+            Whether it&apos;s engineering fintech tools that move money, designing autonomous robots
+            that see and sort, or training models that learn from data—I love bringing bold ideas to
+            life.
           </p>
           <p>
             Beyond the keyboard, soccer is a massive part of my identity. It&apos;s taught me
-            resilience, teamwork, and strategy in ways no textbook ever could. I&apos;m always down to
-            play almost any sport, and when I finally need to recharge, you&apos;ll probably catch me
-            watching anime or diving into Marvel lore.
+            resilience, teamwork, and strategy in ways no textbook ever could. I&apos;m always down
+            to play almost any sport, and when I finally need to recharge, you&apos;ll probably
+            catch me watching anime or diving into Marvel lore.
           </p>
           <p>
             Whether I&apos;m playing as a striker on the pitch or architecting a new tech stack, my
-            mindset stays the exact same: <em className="text-white not-italic border-b border-white">always look for the open lane.</em>
+            mindset stays the exact same:{" "}
+            <em className="text-white not-italic border-b border-white">
+              always look for the open lane.
+            </em>
           </p>
         </div>
 
@@ -113,11 +120,17 @@ function AboutPage() {
         </div>
 
         <section className="mt-16 border-t border-white/20 pt-10">
-          <h2 className="mb-8 font-display text-2xl font-semibold uppercase tracking-widest text-white">Education</h2>
+          <h2 className="mb-8 font-display text-2xl font-semibold uppercase tracking-widest text-white">
+            Education
+          </h2>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h3 className="font-display text-2xl font-semibold text-white">University of Waterloo</h3>
-              <p className="mt-1 font-mono text-xs tracking-widest uppercase text-white/70">Bachelor of Applied Science in Mechatronics Engineering</p>
+              <h3 className="font-display text-2xl font-semibold text-white">
+                University of Waterloo
+              </h3>
+              <p className="mt-1 font-mono text-xs tracking-widest uppercase text-white/70">
+                Bachelor of Applied Science in Mechatronics Engineering
+              </p>
               <div className="mt-5 flex flex-wrap gap-2">
                 <span className="border border-white/20 bg-white/5 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white">
                   Presidential Scholarship
@@ -137,13 +150,13 @@ function AboutPage() {
               The Arsenal
             </h2>
             <div className="flex bg-black w-fit shadow-[0_8px_30px_rgba(255,255,255,0.3)]">
-              <button 
+              <button
                 onClick={() => setViewMode("orbit")}
                 className={`px-4 py-2 font-mono text-xs uppercase tracking-widest transition-colors ${viewMode === "orbit" ? "bg-white text-black font-bold" : "text-white hover:text-white"}`}
               >
                 Orbit
               </button>
-              <button 
+              <button
                 onClick={() => setViewMode("grid")}
                 className={`px-4 py-2 font-mono text-xs uppercase tracking-widest transition-colors ${viewMode === "grid" ? "bg-white text-black font-bold" : "text-white hover:text-white"}`}
               >
@@ -151,7 +164,7 @@ function AboutPage() {
               </button>
             </div>
           </div>
-          
+
           {viewMode === "orbit" ? (
             <div className="relative aspect-square w-full max-w-[500px] mx-auto bg-black">
               <OrbitingSkills />
@@ -159,10 +172,15 @@ function AboutPage() {
           ) : (
             <div className="flex flex-col gap-6 bg-black p-6">
               <div>
-                <h4 className="mb-4 text-[10px] font-mono font-bold uppercase tracking-widest text-white/50">Languages</h4>
+                <h4 className="mb-4 text-[10px] font-mono font-bold uppercase tracking-widest text-white/50">
+                  Languages
+                </h4>
                 <div className="flex flex-wrap gap-4">
                   {LANGUAGES.map((skill) => (
-                    <span key={skill.name} className="flex flex-col items-center gap-2 bg-transparent p-2 text-xs font-mono text-white transition-all hover:scale-110">
+                    <span
+                      key={skill.name}
+                      className="flex flex-col items-center gap-2 bg-transparent p-2 text-xs font-mono text-white transition-all hover:scale-110"
+                    >
                       <skill.icon className="h-6 w-6" style={{ color: skill.color }} />
                       {skill.name}
                     </span>
@@ -170,10 +188,15 @@ function AboutPage() {
                 </div>
               </div>
               <div>
-                <h4 className="mb-4 text-[10px] font-mono font-bold uppercase tracking-widest text-white/50">Hardware & Robotics</h4>
+                <h4 className="mb-4 text-[10px] font-mono font-bold uppercase tracking-widest text-white/50">
+                  Hardware & Robotics
+                </h4>
                 <div className="flex flex-wrap gap-4">
                   {HARDWARE.map((skill) => (
-                    <span key={skill.name} className="flex flex-col items-center gap-2 bg-transparent p-2 text-xs font-mono text-white transition-all hover:scale-110">
+                    <span
+                      key={skill.name}
+                      className="flex flex-col items-center gap-2 bg-transparent p-2 text-xs font-mono text-white transition-all hover:scale-110"
+                    >
                       <skill.icon className="h-6 w-6" style={{ color: skill.color }} />
                       {skill.name}
                     </span>
@@ -181,10 +204,15 @@ function AboutPage() {
                 </div>
               </div>
               <div>
-                <h4 className="mb-4 text-[10px] font-mono font-bold uppercase tracking-widest text-white/50">Software & Tools</h4>
+                <h4 className="mb-4 text-[10px] font-mono font-bold uppercase tracking-widest text-white/50">
+                  Software & Tools
+                </h4>
                 <div className="flex flex-wrap gap-4">
                   {SOFTWARE.map((skill) => (
-                    <span key={skill.name} className="flex flex-col items-center gap-2 bg-transparent p-2 text-xs font-mono text-white transition-all hover:scale-110">
+                    <span
+                      key={skill.name}
+                      className="flex flex-col items-center gap-2 bg-transparent p-2 text-xs font-mono text-white transition-all hover:scale-110"
+                    >
                       <skill.icon className="h-6 w-6" style={{ color: skill.color }} />
                       {skill.name}
                     </span>
@@ -202,9 +230,7 @@ function AboutPage() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-2 border border-white/20 bg-black p-6 transition-colors hover:border-white/50">
-      <span className="font-mono text-xs uppercase tracking-widest text-white">
-        {label}
-      </span>
+      <span className="font-mono text-xs uppercase tracking-widest text-white">{label}</span>
       <span className="font-display text-xl font-medium text-white">{value}</span>
     </div>
   );

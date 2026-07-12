@@ -20,7 +20,6 @@ export function Hero({
         {tagline}
       </p>
 
-
       {/* Center-bottom status chip */}
       {statusChip && (
         <div className="pill absolute bottom-6 left-1/2 hidden -translate-x-1/2 sm:inline-flex">

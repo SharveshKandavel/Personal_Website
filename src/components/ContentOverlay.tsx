@@ -14,12 +14,7 @@ const PANEL_DURATION_MS = 520;
 const BACKDROP_DURATION_MS = 380;
 const CONTENT_DELAY_MS = 200;
 
-export function ContentOverlay({
-  isOpen,
-  onClose,
-  title,
-  children,
-}: ContentOverlayProps) {
+export function ContentOverlay({ isOpen, onClose, title, children }: ContentOverlayProps) {
   // Controls whether the portal is mounted in the DOM at all.
   const [mounted, setMounted] = useState(false);
   // Controls the visual open/close state (drives CSS transitions).
@@ -74,8 +69,7 @@ export function ContentOverlay({
   useEffect(() => {
     if (!mounted) return;
 
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     const prev = document.body.style.cssText;
 
     document.body.style.overflow = "hidden";
@@ -142,12 +136,7 @@ export function ContentOverlay({
   return createPortal(
     <>
       {/* Backdrop */}
-      <div
-        ref={backdropRef}
-        style={backdropStyle}
-        onClick={handleClose}
-        aria-hidden="true"
-      />
+      <div ref={backdropRef} style={backdropStyle} onClick={handleClose} aria-hidden="true" />
 
       {/* Panel */}
       <div ref={panelRef} style={panelStyle} role="dialog" aria-modal="true">

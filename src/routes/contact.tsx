@@ -29,16 +29,17 @@ function ContactPage() {
     <div className="bg-black relative min-h-screen text-white">
       <SiteChrome />
       <main className="mx-auto max-w-2xl px-6 py-32 text-center">
-        <Link to="/" className="mb-10 inline-flex items-center gap-2 border border-white/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black">
+        <Link
+          to="/"
+          className="mb-10 inline-flex items-center gap-2 border border-white/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black"
+        >
           <ArrowLeft className="h-4 w-4" /> Back to universe
         </Link>
 
-        <h1 className="font-display text-5xl font-semibold sm:text-6xl">
-          Let&apos;s talk.
-        </h1>
+        <h1 className="font-display text-5xl font-semibold sm:text-6xl">Let&apos;s talk.</h1>
         <p className="mx-auto mt-4 max-w-md text-lg text-white">
-          Open to full-time and internship opportunities. Also happy to chat
-          about anything you&apos;re building.
+          Open to full-time and internship opportunities. Also happy to chat about anything
+          you&apos;re building.
         </p>
 
         <div className="mt-12 flex flex-wrap justify-center gap-4">
@@ -48,18 +49,18 @@ function ContactPage() {
           >
             <Mail className="h-4 w-4" /> Email me
           </a>
-          <a 
-            href="https://linkedin.com/in/sharveshkandavel/" 
-            target="_blank" 
-            rel="noreferrer" 
+          <a
+            href="https://linkedin.com/in/sharveshkandavel/"
+            target="_blank"
+            rel="noreferrer"
             className="inline-flex items-center gap-2 border border-white/20 bg-black px-6 py-3 font-mono uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black"
           >
             <Linkedin className="h-4 w-4" /> LinkedIn
           </a>
-          <a 
-            href="https://github.com/SharveshKandavel" 
-            target="_blank" 
-            rel="noreferrer" 
+          <a
+            href="https://github.com/SharveshKandavel"
+            target="_blank"
+            rel="noreferrer"
             className="inline-flex items-center gap-2 border border-white/20 bg-black px-6 py-3 font-mono uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black"
           >
             <Github className="h-4 w-4" /> GitHub

@@ -27,11 +27,14 @@ export const Route = createFileRoute("/projects")({
 function BitGoldVisual({ accent }: { accent: string }) {
   return (
     <div className="flex shrink-0 flex-col items-center justify-center py-4 sm:py-0 w-full sm:w-48 md:w-64 lg:w-[280px]">
-      <div className="relative w-full aspect-[4/3] overflow-hidden rounded-xl shadow-2xl" style={{ boxShadow: `0 10px 30px ${accent}33` }}>
-        <img 
-          src="/Bitgold_Photo.png" 
-          alt="BitGold Preview" 
-          className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-105" 
+      <div
+        className="relative w-full aspect-[4/3] overflow-hidden rounded-xl shadow-2xl"
+        style={{ boxShadow: `0 10px 30px ${accent}33` }}
+      >
+        <img
+          src="/Bitgold_Photo.png"
+          alt="BitGold Preview"
+          className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-105"
         />
       </div>
     </div>
@@ -41,11 +44,14 @@ function BitGoldVisual({ accent }: { accent: string }) {
 function RevampVisual({ accent }: { accent: string }) {
   return (
     <div className="flex shrink-0 flex-col items-center justify-center py-4 sm:py-0 w-full sm:w-48 md:w-64 lg:w-[280px]">
-      <div className="relative w-full aspect-[4/3] overflow-hidden rounded-xl shadow-2xl" style={{ boxShadow: `0 10px 30px ${accent}33` }}>
-        <img 
-          src="/Revamp_Photo.png" 
-          alt="Revamp Preview" 
-          className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-105" 
+      <div
+        className="relative w-full aspect-[4/3] overflow-hidden rounded-xl shadow-2xl"
+        style={{ boxShadow: `0 10px 30px ${accent}33` }}
+      >
+        <img
+          src="/Revamp_Photo.png"
+          alt="Revamp Preview"
+          className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-105"
         />
       </div>
     </div>
@@ -170,7 +176,10 @@ function ProjectsPage() {
     <div className="bg-black relative min-h-screen text-white">
       <SiteChrome />
       <main className="mx-auto max-w-4xl px-4 py-24 sm:px-6 lg:px-8">
-        <Link to="/" className="mb-6 inline-flex items-center gap-2 border border-white/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black">
+        <Link
+          to="/"
+          className="mb-6 inline-flex items-center gap-2 border border-white/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black"
+        >
           <ArrowLeft className="h-4 w-4" /> Back to universe
         </Link>
 
@@ -204,17 +213,19 @@ function ProjectsPage() {
                       </div>
 
                       <h2 className="font-display text-2xl font-semibold text-white">{p.name}</h2>
-                      <p className="mt-1 font-mono text-xs tracking-widest uppercase text-white/70">{p.subtitle}</p>
-
-                      <p className="mt-3 text-sm leading-relaxed text-white">
-                        {p.body}
+                      <p className="mt-1 font-mono text-xs tracking-widest uppercase text-white/70">
+                        {p.subtitle}
                       </p>
+
+                      <p className="mt-3 text-sm leading-relaxed text-white">{p.body}</p>
 
                       {/* Highlights */}
                       <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
                         {p.highlights.map((h) => (
                           <li key={h} className="flex items-center gap-2 text-sm text-white">
-                            <span style={{ color: p.accent }} className="text-base font-bold">▸</span>
+                            <span style={{ color: p.accent }} className="text-base font-bold">
+                              ▸
+                            </span>
                             {h}
                           </li>
                         ))}
@@ -223,7 +234,10 @@ function ProjectsPage() {
                       {/* Tags */}
                       <div className="mt-7 flex flex-wrap gap-2">
                         {p.tags.map((t) => (
-                          <span key={t} className="border border-white/20 bg-white/5 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white">
+                          <span
+                            key={t}
+                            className="border border-white/20 bg-white/5 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white"
+                          >
                             {t}
                           </span>
                         ))}
