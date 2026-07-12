@@ -11,7 +11,11 @@ export default defineConfig({
     tanstackStart({
       server: {
         preset: "vercel",
-        entry: "server"
+        entry: "server",
+        prerender: {
+          routes: ["/"],
+          crawlLinks: true
+        }
       },
     }),
     react(),
