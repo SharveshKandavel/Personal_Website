@@ -1,16 +1,15 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
 } from "@tanstack/react-router";
-import { type ReactNode } from "react";
+import { QueryClient } from "@tanstack/react-query";
 
 import appCss from "../styles.css?url";
 import { CustomCursor } from "../components/CustomCursor";
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -69,52 +68,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sharvesh Kandavel — Mechatronics Engineer" },
-      {
-        name: "description",
-        content:
-          "Personal portfolio of a Mechatronics student at Waterloo. Builder, coder, problem-solver, striker.",
-      },
-      { property: "og:title", content: "Sharvesh Kandavel — Mechatronics Engineer" },
-      {
-        property: "og:description",
-        content:
-          "Personal portfolio of a Mechatronics student at Waterloo. Builder, coder, problem-solver, striker.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "icon", href: "/favicon.jpg", type: "image/jpeg" },
-    ],
-  }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
-
-function RootShell({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en" className="light-mode">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
@@ -122,7 +79,6 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <CustomCursor />
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
   );
