@@ -911,6 +911,24 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       camera.position.lerp(cameraTarget, 0.04);
       camera.lookAt(playerGroup.position);
 
+      /* ── Player Indicator overlay ───────────────────────────────────── */
+      const indicator = document.getElementById("player-indicator");
+      if (indicator) {
+        if (!hasInteracted && introTime > 0.5) {
+          // Project 3D position to 2D screen
+          const screenPos = playerGroup.position.clone();
+          screenPos.y += 1.5; // Offset slightly above the player
+          screenPos.project(camera);
+          const x = (screenPos.x * 0.5 + 0.5) * (canvas.clientWidth || 900);
+          const y = -(screenPos.y * 0.5 - 0.5) * (canvas.clientHeight || 520);
+          
+          indicator.style.transform = `translate(-50%, -100%) translate(${x}px, ${y}px)`;
+          indicator.style.opacity = "1";
+        } else if (hasInteracted) {
+          indicator.style.opacity = "0";
+        }
+      }
+
       /* ── Proximity detection ────────────────────────────────────────── */
       let closest: (typeof buildingPositions)[0] | null = null;
       let closestDist = Infinity;
@@ -1034,14 +1052,25 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
 
       {/* Permanent Controls Hint */}
       <div className="pointer-events-none absolute bottom-8 left-0 right-0 z-50 flex justify-center">
-        <div className="border border-black/10 bg-white/80 px-6 py-3 font-mono text-xs uppercase tracking-widest text-black/70 shadow-sm backdrop-blur-md hidden sm:block">
-          Use <kbd className="font-bold text-black border-b border-black/20">W A S D</kbd> to move ·
+        <div className="border border-black/10 bg-white/80 px-6 py-3 font-mono text-xs uppercase tracking-widest text-black/70 shadow-sm backdrop-blur-md hidden sm:block rounded-md">
+          Use <kbd className="font-bold text-black border-b border-black/20">W A S D</kbd> or <kbd className="font-bold text-black border-b border-black/20">↑ ↓ ← →</kbd> to move · 
           Press <kbd className="font-bold text-black border-b border-black/20">Enter</kbd> near
           buildings to enter
         </div>
         <div className="border border-black/10 bg-white/80 px-6 py-3 font-mono text-[10px] uppercase tracking-widest text-black/70 shadow-sm backdrop-blur-md sm:hidden text-center max-w-[80%] rounded-lg">
           Tap on buildings to enter
         </div>
+      </div>
+
+      {/* Dynamic Player Indicator (Controlled by animate loop) */}
+      <div 
+        id="player-indicator"
+        className="pointer-events-none absolute top-0 left-0 z-40 flex flex-col items-center transition-opacity duration-500 opacity-0"
+      >
+        <div className="bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-sm tracking-widest shadow-lg animate-bounce">
+          YOU
+        </div>
+        <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-primary animate-bounce" style={{ marginTop: "-2px" }}></div>
       </div>
 
       {/* Proximity tooltip */}
