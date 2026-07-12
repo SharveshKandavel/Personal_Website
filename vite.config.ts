@@ -9,7 +9,10 @@ export default defineConfig({
     tailwindcss(),
     tsconfigPaths({ projects: ["./tsconfig.json"] }),
     tanstackStart({
-      server: { entry: "server" },
+      server: {
+        preset: "vercel",
+        entry: "server"
+      },
     }),
     react(),
   ],
