@@ -1068,10 +1068,13 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
         className="pointer-events-none absolute top-0 left-0 z-40 flex flex-col items-center transition-opacity duration-500"
         style={{ opacity: 0 }}
       >
-        <div className="bg-black text-white text-[10px] font-bold px-2 py-0.5 rounded-sm tracking-widest shadow-lg animate-bounce">
-          YOU
+        <div className="flex animate-bounce flex-col items-center">
+          <div className="flex items-center gap-2 rounded-full border border-cyan-500/50 bg-black/40 px-3 py-1 font-mono text-[9px] font-bold tracking-[0.2em] text-cyan-400 shadow-[0_0_15px_rgba(0,200,255,0.4)] backdrop-blur-md">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-400 shadow-[0_0_5px_rgba(0,200,255,1)]"></span>
+            YOU
+          </div>
+          <div className="h-8 w-[1px] bg-gradient-to-b from-cyan-500/80 to-transparent"></div>
         </div>
-        <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-black animate-bounce" style={{ marginTop: "-2px" }}></div>
       </div>
 
       {/* Proximity tooltip */}
