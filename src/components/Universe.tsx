@@ -917,7 +917,7 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
         if (!hasInteracted && introTime > 0.5) {
           // Project 3D position to 2D screen
           const screenPos = playerGroup.position.clone();
-          screenPos.y += 1.5; // Offset slightly above the player
+          screenPos.y += 0.5; // Offset perfectly above the player
           screenPos.project(camera);
           const x = (screenPos.x * 0.5 + 0.5) * (canvas.clientWidth || 900);
           const y = -(screenPos.y * 0.5 - 0.5) * (canvas.clientHeight || 520);
@@ -1069,11 +1069,11 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
         style={{ opacity: 0 }}
       >
         <div className="flex animate-bounce flex-col items-center">
-          <div className="flex items-center gap-2 rounded-full border border-cyan-500/50 bg-black/40 px-3 py-1 font-mono text-[9px] font-bold tracking-[0.2em] text-cyan-400 shadow-[0_0_15px_rgba(0,200,255,0.4)] backdrop-blur-md">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-400 shadow-[0_0_5px_rgba(0,200,255,1)]"></span>
+          <div className="flex items-center gap-2 rounded-full border border-cyan-400 bg-black/70 px-3 py-1 font-mono text-[10px] font-bold tracking-[0.2em] text-cyan-300 shadow-[0_0_25px_rgba(0,255,255,0.8)] backdrop-blur-md">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-300 shadow-[0_0_10px_rgba(0,255,255,1)]"></span>
             YOU
           </div>
-          <div className="h-8 w-[1px] bg-gradient-to-b from-cyan-500/80 to-transparent"></div>
+          <div className="h-6 w-[2px] bg-gradient-to-b from-cyan-400 to-transparent shadow-[0_0_10px_rgba(0,255,255,1)]"></div>
         </div>
       </div>
 
