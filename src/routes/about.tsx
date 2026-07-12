@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteChrome } from "@/components/SiteChrome";
 import { ArrowLeft, Database, Cpu, Settings, Box, Layers, Wrench } from "lucide-react";
@@ -16,6 +17,7 @@ import {
   SiRos,
   SiArduino,
 } from "react-icons/si";
+import { OrbitingSkills } from "@/components/OrbitingSkills";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -68,17 +70,19 @@ const SOFTWARE = [
 ];
 
 function AboutPage() {
+  const [viewMode, setViewMode] = useState<"orbit" | "grid">("orbit");
+
   return (
-    <div className="aurora-bg relative min-h-screen">
+    <div className="bg-black relative min-h-screen text-white">
       <SiteChrome />
-      <main className="mx-auto max-w-3xl px-6 py-32">
-        <Link to="/" className="pill mb-10 inline-flex">
+      <main className="mx-auto max-w-3xl px-6 py-20">
+        <Link to="/" className="mb-8 inline-flex items-center gap-2 border border-white/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black">
           <ArrowLeft className="h-4 w-4" /> Back to universe
         </Link>
 
         <h1 className="font-display text-5xl font-semibold sm:text-6xl">About.</h1>
 
-        <div className="mt-8 space-y-6 text-lg text-foreground/85">
+        <div className="mt-8 space-y-4 text-lg text-white leading-relaxed max-w-2xl">
           <p>
             Hi — I&apos;m a <strong>Mechatronics Engineering</strong> student at the{" "}
             <strong>University of Waterloo</strong>. I operate at the exact intersection of hardware,
@@ -97,71 +101,98 @@ function AboutPage() {
           </p>
           <p>
             Whether I&apos;m playing as a striker on the pitch or architecting a new tech stack, my
-            mindset stays the exact same: <em>always look for the open lane.</em>
+            mindset stays the exact same: <em className="text-white not-italic border-b border-white">always look for the open lane.</em>
           </p>
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2">
-          <Stat label="Currently" value="Seeking Fall 2026 Co-op" />
-          <Stat label="Off the desk" value="Striker · Soccer" />
+        <div className="mt-8">
+          <div className="inline-flex items-center gap-3 border border-white px-5 py-2.5 bg-white text-black font-mono text-sm uppercase tracking-widest font-bold">
+            <div className="w-2 h-2 rounded-full bg-black animate-pulse" />
+            Seeking Fall 2026 Co-op
+          </div>
         </div>
 
-        <section className="mt-10">
-          <div className="rounded-3xl border border-border bg-card p-6 sm:p-8 transition-colors hover:border-accent/40">
-            <h4 className="mb-6 text-xs font-bold uppercase tracking-widest text-muted-foreground">Education</h4>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <h3 className="text-xl font-semibold">University of Waterloo</h3>
-                <p className="mt-1 text-muted-foreground">Bachelor of Applied Science in Mechatronics Engineering</p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <span className="pill text-xs border-white/10 bg-white/5">Presidential Scholarship</span>
-                </div>
+        <section className="mt-16 border-t border-white/20 pt-10">
+          <h2 className="mb-8 font-display text-2xl font-semibold uppercase tracking-widest text-white">Education</h2>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h3 className="font-display text-2xl font-semibold text-white">University of Waterloo</h3>
+              <p className="mt-1 font-mono text-xs tracking-widest uppercase text-white/70">Bachelor of Applied Science in Mechatronics Engineering</p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <span className="border border-white/20 bg-white/5 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white">
+                  Presidential Scholarship
+                </span>
               </div>
-              <div className="shrink-0 text-sm text-muted-foreground sm:text-right">
-                <p>Sept 2023 — Apr 2028</p>
-                <p className="mt-1">Waterloo, ON</p>
-              </div>
+            </div>
+            <div className="shrink-0 font-mono text-sm uppercase tracking-widest text-white sm:text-right">
+              <p>Sept 2023 — Apr 2028</p>
+              <p className="mt-1">Waterloo, ON</p>
             </div>
           </div>
         </section>
 
         <section className="mt-16">
-          <h2 className="font-display text-3xl font-semibold">Technical Skills</h2>
-          <div className="mt-6 flex flex-col gap-8 rounded-3xl border border-border bg-card p-6 sm:p-8">
-            <div>
-              <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-muted-foreground">Languages</h4>
-              <div className="flex flex-wrap gap-3">
-                {LANGUAGES.map((skill) => (
-                  <span key={skill.name} className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm transition-colors hover:bg-white/10">
-                    <skill.icon className="h-4 w-4" style={{ color: skill.color }} />
-                    {skill.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-muted-foreground">Hardware & Robotics</h4>
-              <div className="flex flex-wrap gap-3">
-                {HARDWARE.map((skill) => (
-                  <span key={skill.name} className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm transition-colors hover:bg-white/10">
-                    <skill.icon className="h-4 w-4" style={{ color: skill.color }} />
-                    {skill.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-muted-foreground">Software & Tools</h4>
-              <div className="flex flex-wrap gap-3">
-                {SOFTWARE.map((skill) => (
-                  <span key={skill.name} className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm transition-colors hover:bg-white/10">
-                    <skill.icon className="h-4 w-4" style={{ color: skill.color }} />
-                    {skill.name}
-                  </span>
-                ))}
-              </div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+            <h2 className="font-display text-2xl font-semibold uppercase tracking-widest text-white">
+              The Arsenal
+            </h2>
+            <div className="flex bg-black w-fit shadow-[0_8px_30px_rgba(255,255,255,0.3)]">
+              <button 
+                onClick={() => setViewMode("orbit")}
+                className={`px-4 py-2 font-mono text-xs uppercase tracking-widest transition-colors ${viewMode === "orbit" ? "bg-white text-black font-bold" : "text-white hover:text-white"}`}
+              >
+                Orbit
+              </button>
+              <button 
+                onClick={() => setViewMode("grid")}
+                className={`px-4 py-2 font-mono text-xs uppercase tracking-widest transition-colors ${viewMode === "grid" ? "bg-white text-black font-bold" : "text-white hover:text-white"}`}
+              >
+                Grid
+              </button>
             </div>
           </div>
+          
+          {viewMode === "orbit" ? (
+            <div className="relative aspect-square w-full max-w-[500px] mx-auto bg-black">
+              <OrbitingSkills />
+            </div>
+          ) : (
+            <div className="flex flex-col gap-6 bg-black p-6">
+              <div>
+                <h4 className="mb-4 text-[10px] font-mono font-bold uppercase tracking-widest text-white/50">Languages</h4>
+                <div className="flex flex-wrap gap-4">
+                  {LANGUAGES.map((skill) => (
+                    <span key={skill.name} className="flex flex-col items-center gap-2 bg-transparent p-2 text-xs font-mono text-white transition-all hover:scale-110">
+                      <skill.icon className="h-6 w-6" style={{ color: skill.color }} />
+                      {skill.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="mb-4 text-[10px] font-mono font-bold uppercase tracking-widest text-white/50">Hardware & Robotics</h4>
+                <div className="flex flex-wrap gap-4">
+                  {HARDWARE.map((skill) => (
+                    <span key={skill.name} className="flex flex-col items-center gap-2 bg-transparent p-2 text-xs font-mono text-white transition-all hover:scale-110">
+                      <skill.icon className="h-6 w-6" style={{ color: skill.color }} />
+                      {skill.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="mb-4 text-[10px] font-mono font-bold uppercase tracking-widest text-white/50">Software & Tools</h4>
+                <div className="flex flex-wrap gap-4">
+                  {SOFTWARE.map((skill) => (
+                    <span key={skill.name} className="flex flex-col items-center gap-2 bg-transparent p-2 text-xs font-mono text-white transition-all hover:scale-110">
+                      <skill.icon className="h-6 w-6" style={{ color: skill.color }} />
+                      {skill.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </section>
       </main>
     </div>
@@ -170,9 +201,11 @@ function AboutPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-5">
-      <div className="text-xs uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className="mt-2 font-display text-lg">{value}</div>
+    <div className="flex flex-col gap-2 border border-white/20 bg-black p-6 transition-colors hover:border-white/50">
+      <span className="font-mono text-xs uppercase tracking-widest text-white">
+        {label}
+      </span>
+      <span className="font-display text-xl font-medium text-white">{value}</span>
     </div>
   );
 }

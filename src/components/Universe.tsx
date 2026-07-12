@@ -1,12 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 
-export function Universe() {
+interface UniverseProps {
+  onBuildingEnter?: (route: string) => void;
+}
+
+export function Universe({ onBuildingEnter }: UniverseProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const navigate = useNavigate();
+  const onBuildingEnterRef = useRef(onBuildingEnter);
+  onBuildingEnterRef.current = onBuildingEnter;
   const [hovered, setHovered] = useState<string | null>(null);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [nearBuilding, setNearBuilding] = useState<{ label: string; to: string } | null>(null);
+
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -30,8 +35,111 @@ export function Universe() {
 
     /* ── Camera — Isometric angled ───────────────────────────────────────── */
     const camera = new THREE.PerspectiveCamera(35, W / H, 0.1, 200);
-    camera.position.set(22, 18, 22);
-    camera.lookAt(0, 0, 0);
+    camera.position.set(3, 2.5, 14);
+    camera.lookAt(1, 0.5, 12);
+
+    /* ── Player Character ─────────────────────────────────────────────── */
+    const playerGroup = new THREE.Group();
+    // Main glowing orb
+    const playerCore = new THREE.Mesh(
+      new THREE.SphereGeometry(0.3, 24, 24),
+      new THREE.MeshStandardMaterial({
+        color: 0x00ccff,
+        emissive: 0x00ccff,
+        emissiveIntensity: 2.0,
+        roughness: 0.2,
+        metalness: 0.8,
+      })
+    );
+    playerCore.castShadow = true;
+    playerGroup.add(playerCore);
+
+    // Outer glow ring
+    const playerRing = new THREE.Mesh(
+      new THREE.TorusGeometry(0.5, 0.03, 16, 32),
+      new THREE.MeshStandardMaterial({
+        color: 0x00ccff,
+        emissive: 0x00ccff,
+        emissiveIntensity: 1.5,
+        transparent: true,
+        opacity: 0.5,
+      })
+    );
+    playerRing.rotation.x = Math.PI / 2;
+    playerGroup.add(playerRing);
+
+    // Point light on player
+    const playerLight = new THREE.PointLight(0x00ccff, 3.0, 8);
+    playerLight.position.y = 0.5;
+    playerGroup.add(playerLight);
+
+    playerGroup.position.set(1, 0.5, 12);
+    scene.add(playerGroup);
+
+    // Trail particles
+    const TRAIL_PARTICLE_COUNT = 12;
+    const trailParticles: THREE.Mesh[] = [];
+    const trailPositions: { x: number; y: number; z: number; life: number }[] = [];
+    const trailMat = new THREE.MeshStandardMaterial({
+      color: 0x00ccff,
+      emissive: 0x00ccff,
+      emissiveIntensity: 1.0,
+      transparent: true,
+      opacity: 0.4,
+    });
+    for (let i = 0; i < TRAIL_PARTICLE_COUNT; i++) {
+      const p = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), trailMat.clone());
+      p.visible = false;
+      scene.add(p);
+      trailParticles.push(p);
+      trailPositions.push({ x: 1, y: 0.5, z: 12, life: 0 });
+    }
+    let trailIndex = 0;
+    let trailTimer = 0;
+
+    // Player movement state
+    const keys: Record<string, boolean> = {};
+    const playerPos = new THREE.Vector3(1, 0.5, 12);
+    const playerVel = new THREE.Vector3();
+    const PLAYER_SPEED = 0.12;
+    const PLAYER_FRICTION = 0.88;
+    const targetCameraOffset = new THREE.Vector3(22, 18, 22);
+    const currentCameraOffset = new THREE.Vector3(2, 2, 2);
+    const cameraTarget = new THREE.Vector3();
+    let introTime = 0;
+    let hasInteracted = false;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      keys[e.key.toLowerCase()] = true;
+      if (['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(e.key.toLowerCase())) {
+        if (!hasInteracted) {
+          hasInteracted = true;
+
+        }
+        e.preventDefault();
+      }
+      // Enter key to enter a building
+      if (e.key === 'Enter') {
+        e.preventDefault();
+      }
+    };
+    const onKeyUp = (e: KeyboardEvent) => {
+      keys[e.key.toLowerCase()] = false;
+    };
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
+
+    // Building positions for proximity detection
+    const buildingPositions = [
+      { pos: new THREE.Vector3(6, 0, 6), label: 'About', to: '/about', radius: 4 },
+      { pos: new THREE.Vector3(7, 0, -3), label: 'Experience', to: '/experience', radius: 3.5 },
+      { pos: new THREE.Vector3(-5, 0, 5), label: 'Projects', to: '/projects', radius: 4 },
+      { pos: new THREE.Vector3(-7, 0, -4), label: 'Hobbies', to: '/hobbies', radius: 3.5 },
+      { pos: new THREE.Vector3(0, 0, -7), label: 'Contact', to: '/contact', radius: 4 },
+    ];
+
+    // References for proximity-based glow enhancement
+    const buildingGroups: THREE.Group[] = [];
 
     /* ── Lights ──────────────────────────────────────────────────────────── */
     scene.add(new THREE.HemisphereLight(0xffffff, 0xb0c4de, 0.8));
@@ -283,6 +391,7 @@ export function Universe() {
 
       pick(g, "/about", "About", 3.0); // Standard Sphere Hitbox
       scene.add(g);
+      buildingGroups.push(g);
     }
 
     /* ── 2. EXPERIENCE (Credvan) — Sleek twisting skyscraper ── */
@@ -323,6 +432,7 @@ export function Universe() {
 
       pick(g, "/experience", "Experience", 1.5, 12.0); // Tall Cylinder Hitbox
       scene.add(g);
+      buildingGroups.push(g);
     }
 
     /* ── 3. PROJECTS (Tech Lab) — Holographic Projection Base ── */
@@ -370,6 +480,7 @@ export function Universe() {
 
       pick(g, "/projects", "Projects", 3.0);
       scene.add(g);
+      buildingGroups.push(g);
     }
 
     /* ── 4. HOBBIES (Soccer Stadium) — Modern Sunken Arena ── */
@@ -420,6 +531,7 @@ export function Universe() {
 
       pick(g, "/hobbies", "Hobbies", 2.8);
       scene.add(g);
+      buildingGroups.push(g);
     }
 
     /* ── 5. CONTACT (Lighthouse) — Glowing Obelisk ── */
@@ -471,6 +583,7 @@ export function Universe() {
 
       pick(g, "/contact", "Contact", 4.0, 20.0); // MASSIVE Tall Cylinder Hitbox
       scene.add(g);
+      buildingGroups.push(g);
     }
 
     /* ── MODERN TREES (Holographic Geometric Clusters) ── */
@@ -597,7 +710,7 @@ export function Universe() {
       drones.push({ g: dg, t: i * 0.25, speed: 0.002 + i*0.001, r: 5 + i*1.5 });
     }
 
-    /* ── INTERACTION ─────────────────────────────────────────────────────── */
+    /* ── INTERACTION (click fallback + WASD primary) ───────────────────── */
     const raycaster = new THREE.Raycaster();
 
     const onMove = (e: MouseEvent) => {
@@ -613,11 +726,8 @@ export function Universe() {
       if (hits.length) {
         const { label } = hits[0].object.userData as { label: string };
         setHovered(label);
-        setTooltipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-        canvas.style.cursor = "pointer";
       } else {
         setHovered(null);
-        canvas.style.cursor = "default";
       }
     };
 
@@ -639,12 +749,35 @@ export function Universe() {
         camera
       );
       const hits = raycaster.intersectObjects(clickMeshes);
-      if (hits.length) void navigate({ to: hits[0].object.userData.to as string });
+      if (hits.length) {
+        const route = hits[0].object.userData.to as string;
+        if (onBuildingEnterRef.current) onBuildingEnterRef.current(route);
+      }
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        raycaster.setFromCamera(
+          new THREE.Vector2(
+            ((touch.clientX - rect.left) / rect.width) * 2 - 1,
+            -((touch.clientY - rect.top) / rect.height) * 2 + 1
+          ),
+          camera
+        );
+        const hits = raycaster.intersectObjects(clickMeshes);
+        if (hits.length) {
+          const route = hits[0].object.userData.to as string;
+          if (onBuildingEnterRef.current) onBuildingEnterRef.current(route);
+        }
+      }
     };
 
     canvas.addEventListener("mousemove", onMove);
     canvas.addEventListener("mouseleave", onMouseLeave);
     canvas.addEventListener("click", onClick);
+    canvas.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("scroll", onScroll, { passive: true });
 
     /* ── RESIZE ──────────────────────────────────────────────────────────── */
@@ -660,10 +793,108 @@ export function Universe() {
     /* ── ANIMATE ─────────────────────────────────────────────────────────── */
     let frame = 0,
       rafId = 0;
+    let prevNearBuilding: string | null = null;
+
     const animate = () => {
       rafId = requestAnimationFrame(animate);
       frame++;
       const t = frame * 0.016;
+
+      /* ── Player movement ───────────────────────────────────────────── */
+      // Camera-relative movement direction (isometric)
+      const moveDir = new THREE.Vector3();
+      if (keys['w'] || keys['arrowup'])    { moveDir.x -= 1; moveDir.z -= 1; }
+      if (keys['s'] || keys['arrowdown'])  { moveDir.x += 1; moveDir.z += 1; }
+      if (keys['a'] || keys['arrowleft'])  { moveDir.x -= 1; moveDir.z += 1; }
+      if (keys['d'] || keys['arrowright']) { moveDir.x += 1; moveDir.z -= 1; }
+
+      if (moveDir.lengthSq() > 0) {
+        moveDir.normalize().multiplyScalar(PLAYER_SPEED);
+        playerVel.add(moveDir);
+      }
+      playerVel.multiplyScalar(PLAYER_FRICTION);
+
+      // Clamp to island bounds
+      playerPos.add(playerVel);
+      const distFromCenter = Math.sqrt(playerPos.x ** 2 + playerPos.z ** 2);
+      if (distFromCenter > 16) {
+        playerPos.normalize().multiplyScalar(16);
+        playerPos.y = 0.5;
+        playerVel.set(0, 0, 0);
+      }
+      playerPos.y = 0.5;
+
+      playerGroup.position.lerp(playerPos, 0.15);
+
+      // Animate player ring
+      playerRing.rotation.z = t * 2;
+      playerCore.scale.setScalar(1 + Math.sin(t * 4) * 0.05);
+
+      // Trail particles
+      trailTimer += 1;
+      if (trailTimer % 3 === 0 && playerVel.lengthSq() > 0.0001) {
+        const idx = trailIndex % TRAIL_PARTICLE_COUNT;
+        trailPositions[idx] = {
+          x: playerGroup.position.x + (Math.random() - 0.5) * 0.2,
+          y: playerGroup.position.y + (Math.random() - 0.5) * 0.2,
+          z: playerGroup.position.z + (Math.random() - 0.5) * 0.2,
+          life: 1.0,
+        };
+        trailParticles[idx].visible = true;
+        trailIndex++;
+      }
+      for (let i = 0; i < TRAIL_PARTICLE_COUNT; i++) {
+        const tp = trailPositions[i];
+        if (tp.life > 0) {
+          tp.life -= 0.03;
+          trailParticles[i].position.set(tp.x, tp.y + (1 - tp.life) * 0.3, tp.z);
+          trailParticles[i].scale.setScalar(tp.life * 0.8);
+          (trailParticles[i].material as THREE.MeshStandardMaterial).opacity = tp.life * 0.5;
+          if (tp.life <= 0) trailParticles[i].visible = false;
+        }
+      }
+
+      /* ── Camera intro animation ─────────────────────────────────────── */
+      if (introTime < 1.0) {
+        introTime += 0.002;
+        const easeOutQuart = 1 - Math.pow(1 - introTime, 4);
+        currentCameraOffset.lerpVectors(new THREE.Vector3(2, 2, 2), targetCameraOffset, easeOutQuart);
+      }
+
+      /* ── Camera follow ──────────────────────────────────────────────── */
+      cameraTarget.copy(playerGroup.position).add(currentCameraOffset);
+      camera.position.lerp(cameraTarget, 0.04);
+      camera.lookAt(playerGroup.position);
+
+      /* ── Proximity detection ────────────────────────────────────────── */
+      let closest: typeof buildingPositions[0] | null = null;
+      let closestDist = Infinity;
+      for (const bp of buildingPositions) {
+        const d = playerGroup.position.distanceTo(bp.pos);
+        if (d < bp.radius && d < closestDist) {
+          closest = bp;
+          closestDist = d;
+        }
+      }
+
+      if (closest) {
+        if (prevNearBuilding !== closest.label) {
+          prevNearBuilding = closest.label;
+          setNearBuilding({ label: closest.label, to: closest.to });
+          setHovered(closest.label);
+        }
+        // Enter building on Enter key
+        if (keys['enter']) {
+          keys['enter'] = false;
+          if (onBuildingEnterRef.current) onBuildingEnterRef.current(closest.to);
+        }
+      } else {
+        if (prevNearBuilding !== null) {
+          prevNearBuilding = null;
+          setNearBuilding(null);
+          setHovered(null);
+        }
+      }
 
       // Rotate central hub glow
       hubGlow.rotation.y = t * -0.5;
@@ -677,9 +908,9 @@ export function Universe() {
       if (gradCapGrp) {
         gradCapGrp.position.y = 3.5 + Math.sin(t * 2) * 0.1;
         gradCapGrp.rotation.y = t * 0.8;
-        gradCapGrp.rotation.z = Math.sin(t * 1.5) * 0.1; // gentle tilt
+        gradCapGrp.rotation.z = Math.sin(t * 1.5) * 0.1;
         if (gradCapGrp.children[1]) {
-           gradCapGrp.children[1].rotation.y = -t * 1.6; // Inner gem spins opposite
+           gradCapGrp.children[1].rotation.y = -t * 1.6;
            gradCapGrp.children[1].rotation.x = t * 1.2;
         }
       }
@@ -692,7 +923,7 @@ export function Universe() {
 
       // Giant Bouncing Soccer Ball
       if (soccerBall) {
-        soccerBall.position.y = 0.5 + Math.abs(Math.sin(t * 3.5)) * 1.2; // Realistic bounce height
+        soccerBall.position.y = 0.5 + Math.abs(Math.sin(t * 3.5)) * 1.2;
         soccerBall.rotation.x += 0.04;
         soccerBall.rotation.z -= 0.03;
       }
@@ -707,9 +938,9 @@ export function Universe() {
 
       // Animate ambient energy coils
       ambientGrp.children.forEach(child => {
-        if (child.children.length === 4) { // Only coils have exactly 4 children
-          child.children[2].rotation.z = t * 2; // dark metal ring
-          child.children[3].rotation.z = -t * 3; // glowing float ring
+        if (child.children.length === 4) {
+          child.children[2].rotation.z = t * 2;
+          child.children[3].rotation.z = -t * 3;
           child.children[3].position.y = 1.0 + Math.sin(t * 4) * 0.1;
         }
       });
@@ -719,8 +950,8 @@ export function Universe() {
         drone.t += drone.speed;
         drone.g.position.x = Math.cos(drone.t) * drone.r;
         drone.g.position.z = Math.sin(drone.t) * drone.r;
-        drone.g.position.y = 5 + Math.sin(drone.t * 3 + i) * 1.5; // High in the sky
-        drone.g.lookAt(0, drone.g.position.y, 0); // Always face center
+        drone.g.position.y = 5 + Math.sin(drone.t * 3 + i) * 1.5;
+        drone.g.lookAt(0, drone.g.position.y, 0);
       });
 
       renderer.render(scene, camera);
@@ -733,10 +964,13 @@ export function Universe() {
       canvas.removeEventListener("mousemove", onMove);
       canvas.removeEventListener("mouseleave", onMouseLeave);
       canvas.removeEventListener("click", onClick);
+      canvas.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
       renderer.dispose();
     };
-  }, [navigate]);
+  }, []);
 
   const LEGEND = [
     { label: "About", hint: "Tech Building", to: "/about" },
@@ -747,36 +981,39 @@ export function Universe() {
   ];
 
   return (
-    <section id="universe" aria-label="Island city" className="relative mx-auto flex w-full max-w-6xl flex-col items-center px-4 py-10 sm:py-16">
-      <div className="mb-6 text-center sm:mb-8">
-        <p className="pill mx-auto mb-4 !bg-white/8 text-sm">Explore my world</p>
-        <h2 className="font-display text-3xl font-semibold sm:text-5xl">Click a building to explore.</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground sm:text-base">
-          Hover a landmark · click to enter
-        </p>
+    <div id="universe" aria-label="Island city" className="relative h-full w-full">
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 block h-full w-full bg-slate-50 dark:bg-slate-900"
+      />
+
+      {/* Permanent Controls Hint */}
+      <div className="pointer-events-none absolute bottom-8 left-0 right-0 z-50 flex justify-center">
+        <div className="border border-black/10 bg-white/80 px-6 py-3 font-mono text-xs uppercase tracking-widest text-black/70 shadow-sm backdrop-blur-md hidden sm:block">
+          Use <kbd className="font-bold text-black border-b border-black/20">W A S D</kbd> to move · Press <kbd className="font-bold text-black border-b border-black/20">Enter</kbd> near buildings to enter
+        </div>
+        <div className="border border-black/10 bg-white/80 px-6 py-3 font-mono text-[10px] uppercase tracking-widest text-black/70 shadow-sm backdrop-blur-md sm:hidden text-center max-w-[80%] rounded-lg">
+          Tap on buildings to enter
+        </div>
       </div>
 
-      <div className="relative w-full overflow-hidden rounded-3xl shadow-2xl" style={{ height: "min(80vw, 600px)", border: "1px solid rgba(255,255,255,0.1)" }}>
-        <canvas ref={canvasRef} className="h-full w-full bg-slate-50 dark:bg-slate-900" style={{ display: "block" }} />
-        
-        {hovered && (
-          <div
-            className="pointer-events-none absolute z-50 -translate-x-1/2 -translate-y-full rounded-full border border-black/10 bg-white/90 px-4 py-1.5 text-sm font-semibold text-black shadow-lg backdrop-blur-md dark:border-white/20 dark:bg-black/80 dark:text-white"
-            style={{ left: tooltipPos.x, top: tooltipPos.y - 16 }}
-          >
-            {hovered} →
+      {/* Proximity tooltip */}
+      {nearBuilding && (
+        <div
+          className="pointer-events-none absolute left-1/2 top-10 z-50 -translate-x-1/2"
+          style={{ animation: "fadeIn 0.3s ease" }}
+        >
+          <div className="flex items-center gap-4 rounded-full border border-white/15 bg-black/70 px-6 py-4 shadow-2xl backdrop-blur-xl">
+            <span className="inline-block h-3 w-3 animate-pulse rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(0,200,255,0.8)]"></span>
+            <span className="font-display text-base font-semibold text-white">
+              {nearBuilding.label}
+            </span>
+            <span className="ml-2 rounded-md bg-white/10 px-2 py-1 text-xs font-bold text-white">
+              Enter ↵
+            </span>
           </div>
-        )}
-      </div>
-
-      <div className="mt-6 flex flex-wrap justify-center gap-2 sm:gap-3">
-        {LEGEND.map((l) => (
-          <div key={l.to} className="flex items-center gap-2 rounded-full border border-black/5 bg-black/5 px-4 py-2 text-xs backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
-            <span className="font-bold text-foreground/90">{l.label}</span>
-            <span className="text-muted-foreground/60">{l.hint}</span>
-          </div>
-        ))}
-      </div>
-    </section>
+        </div>
+      )}
+    </div>
   );
 }

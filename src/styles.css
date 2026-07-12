@@ -248,3 +248,20 @@
     transform: translateY(-1px);
   }
 }
+
+/* Fade-in utility for dynamic elements */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Dark/Light mode toggle styles */
+html.light-mode {
+  filter: invert(0.92) hue-rotate(180deg);
+}
+
+html.light-mode img,
+html.light-mode video,
+html.light-mode canvas {
+  filter: invert(1.08) hue-rotate(180deg);
+}

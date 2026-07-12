@@ -30,7 +30,7 @@ export function Hero({
       )}
 
       {/* Scroll cue */}
-      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:bottom-28">
+      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-white sm:bottom-28">
         SCROLL TO EXPLORE MY WORLD ↓
       </div>
     </section>

@@ -29,50 +29,59 @@ const ROLES = [
     company: "Credvan",
     role: "Technical Founder",
     when: "2026 – Present",
-    body: "Building scalable employer portals using React, TypeScript, and FastAPI. Designing Python risk-scoring models and building ETL pipelines mapping external REST APIs to a unified database schema.",
-  },
-  {
-    company: "IIT Madras",
-    role: "Applied AI Program",
-    when: "Aug 2025",
-    body: "Built a context-aware AI chatbot connected to a document knowledge base for retrieval-augmented Q&A. Implemented RAG pipelines using AnythingLLM with vector embeddings.",
+    body: "Built responsive, scalable employer portals using React and TypeScript while architecting backend web services with FastAPI and Convex for real-time JSON processing. Designed Python risk-scoring models to enforce strict transaction limits, engineered complex ETL pipelines unifying multiple external APIs, and ensured the entire Plaid and Stripe infrastructure complied strictly with CFPB Advisory Opinions.",
   },
   {
     company: "WE Accelerate Program",
     role: "Web Developer",
     when: "May 2026 – Aug 2026",
-    body: "Executed structural SEO optimizations across two independent websites, increasing performance metrics by 45%. Configured Google Analytics and authored technical documentation.",
+    body: "Executed structural SEO optimizations across two independent websites, significantly increasing performance metrics by up to 45%. Configured detailed Google Analytics tracking, authored comprehensive technical documentation to train the employer on long-term data utilization, and was awarded the WEA Employer-Funded Award for outstanding contribution.",
+  },
+  {
+    company: "IIT Madras",
+    role: "Applied AI Program",
+    when: "Aug 2025",
+    body: "Developed a context-aware AI chatbot connected to a document knowledge base for retrieval-augmented Q&A. Implemented RAG pipelines using AnythingLLM with vector embeddings and deployed local machine learning models via LM Studio to benchmark processing latency and evaluate prompt engineering trade-offs.",
   },
 ];
 
 function ExperiencePage() {
   return (
-    <div className="aurora-bg relative min-h-screen">
+    <div className="bg-black relative min-h-screen text-white">
       <SiteChrome />
-      <main className="mx-auto max-w-3xl px-6 py-32">
-        <Link to="/" className="pill mb-10 inline-flex">
+      <main className="mx-auto max-w-4xl px-6 py-32">
+        <Link to="/" className="mb-10 inline-flex items-center gap-2 border border-white/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black">
           <ArrowLeft className="h-4 w-4" /> Back to universe
         </Link>
 
-        <h1 className="font-display text-5xl font-semibold sm:text-6xl">Experience.</h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Fintech → Robotics → AI. Always shipping.
-        </p>
+        <h1 className="font-display text-5xl font-semibold sm:text-6xl mb-12">Experience.</h1>
 
-        <ol className="mt-12 space-y-6">
+        <ol className="flex flex-col gap-8">
           {ROLES.map((r) => (
             <li
               key={r.company}
-              className="relative rounded-2xl border border-border bg-card p-6 transition hover:border-accent/60"
+              className="group border border-white/20 bg-black p-6 sm:p-8 transition-all duration-300 hover:border-white/50 hover:shadow-[0_8px_30px_rgba(255,255,255,0.1)] relative overflow-hidden"
             >
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
+              {/* Subtle accent line on hover */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-white/0 transition-colors duration-300 group-hover:bg-white" />
+
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
                 <div>
-                  <h3 className="font-display text-2xl font-semibold">{r.company}</h3>
-                  <p className="text-sm text-muted-foreground">{r.role}</p>
+                  <h3 className="font-display text-2xl font-semibold text-white">
+                    {r.company === "IIT Madras" ? r.company : r.role}
+                  </h3>
+                  <p className="text-white/70 font-mono text-sm mt-1 uppercase tracking-widest">
+                    {r.company === "IIT Madras" ? r.role : r.company}
+                  </p>
                 </div>
-                <span className="pill">{r.when}</span>
+                <span className="mt-4 sm:mt-0 font-mono text-xs uppercase tracking-widest text-white/60">{r.when}</span>
               </div>
-              <p className="mt-4 text-foreground/85">{r.body}</p>
+              
+              <div className="relative pl-4 sm:pl-6 border-l-2 border-white/10 group-hover:border-white/30 transition-colors duration-300">
+                <p className="text-[15px] leading-relaxed text-white/80 font-sans tracking-wide">
+                  {r.body}
+                </p>
+              </div>
             </li>
           ))}
         </ol>
