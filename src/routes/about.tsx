@@ -87,25 +87,16 @@ function AboutPage() {
 
         <div className="mt-8 space-y-4 text-lg text-white leading-relaxed max-w-2xl">
           <p>
-            Hi — I&apos;m a <strong>Mechatronics Engineering</strong> student at the{" "}
-            <strong>University of Waterloo</strong>. I operate at the exact intersection of
-            hardware, software, and product design.
+            Hi, I'm a Mechatronics Engineering student at the University of Waterloo. I love working right at the point where hardware, software, and product design meet.
           </p>
           <p>
-            I&apos;m driven by the challenge of building systems that solve tangible problems.
-            Whether it&apos;s engineering fintech tools that move money, designing autonomous robots
-            that see and sort, or training models that learn from data—I love bringing bold ideas to
-            life.
+            I genuinely enjoy building systems that actually do something useful. Whether I'm working on fintech tools for moving money around, writing code for autonomous robots, or training data models, I just like bringing cool ideas to life.
           </p>
           <p>
-            Beyond the keyboard, soccer is a massive part of my identity. It&apos;s taught me
-            resilience, teamwork, and strategy in ways no textbook ever could. I&apos;m always down
-            to play almost any sport, and when I finally need to recharge, you&apos;ll probably
-            catch me watching anime or diving into Marvel lore.
+            When I'm away from my computer, soccer is a huge part of my life. It's taught me a lot about teamwork and strategy over the years. I'll play pretty much any sport, and on my rest days you can usually find me watching anime or reading up on Marvel lore.
           </p>
           <p>
-            Whether I&apos;m playing as a striker on the pitch or architecting a new tech stack, my
-            mindset stays the exact same:{" "}
+            Whether I'm playing on the field or writing a new piece of software, my mindset is always the same:{" "}
             <em className="text-white not-italic border-b border-white">
               always look for the open lane.
             </em>

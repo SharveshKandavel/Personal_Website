@@ -1065,7 +1065,8 @@ export function Universe({ onBuildingEnter }: UniverseProps) {
       {/* Dynamic Player Indicator (Controlled by animate loop) */}
       <div 
         id="player-indicator"
-        className="pointer-events-none absolute top-0 left-0 z-40 flex flex-col items-center transition-opacity duration-500 opacity-0"
+        className="pointer-events-none absolute top-0 left-0 z-40 flex flex-col items-center transition-opacity duration-500"
+        style={{ opacity: 0 }}
       >
         <div className="bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-sm tracking-widest shadow-lg animate-bounce">
           YOU
